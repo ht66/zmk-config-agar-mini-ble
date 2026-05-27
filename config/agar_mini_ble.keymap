@@ -19,12 +19,12 @@
 
         tolayer1 {
             bindings = <&to 1>;
-            key-positions = <13 39>;
+            key-positions = <39 25>;
         };
 
         tolayer2 {
             bindings = <&to 2>;
-            key-positions = <13 40>;
+            key-positions = <40 25>;
         };
     };
 
