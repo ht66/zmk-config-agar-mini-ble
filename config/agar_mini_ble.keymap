@@ -9,6 +9,20 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
+    combos {
+        compatible = "zmk,combos";
+
+        tolayer1 {
+            bindings = <&to 1>;
+            key-positions = <25 39>;
+        };
+
+        tolayer2 {
+            bindings = <&to 2>;
+            key-positions = <25 40>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -23,7 +37,7 @@
 
         layer1 {
             bindings = <
-&trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp NUMBER_5  &trans  &trans      &kp STAR   &kp AT     &kp PERCENT       &mt RIGHT_PARENTHESIS LEFT_PARENTHESIS  &trans
+&to 0   &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp NUMBER_5  &trans  &trans      &kp STAR   &kp AT     &kp PERCENT       &mt RIGHT_PARENTHESIS LEFT_PARENTHESIS  &trans
 &trans  &kp NUMBER_6  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp NUMBER_0  &trans  &kp HASH    &kp AMPS   &kp EXCL   &kp SINGLE_QUOTE  &trans
 &trans  &trans        &trans        &trans        &kp CARET     &trans        &trans  &kp DOLLAR  &kp MINUS  &kp EQUAL  &kp BACKSLASH     &trans
         &trans        &trans                      &trans                      &trans                         &trans     &trans
@@ -32,7 +46,7 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &trans
+&to 0   &trans  &trans  &trans  &trans  &trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans     &trans  &trans
         &trans  &trans          &trans          &trans                      &trans     &trans
