@@ -15,13 +15,7 @@
         reset {
             bindings = <&sys_reset>;
             key-positions = <0 39 40>;
-            timeout-ms = <1000>;
-        };
-
-        tolayer0 {
-            bindings = <&to 0>;
-            key-positions = <39 40>;
-            timeout-ms = <100>;
+            timeout-ms = <2000>;
         };
 
         tolayer1 {
@@ -38,7 +32,7 @@
 
         tolayer3 {
             bindings = <&to 3>;
-            key-positions = <13 40 23>;
+            key-positions = <13 40 39>;
             timeout-ms = <2000>;
         };
 
@@ -51,11 +45,13 @@
         layer0sub {
             bindings = <&kp MINUS>;
             key-positions = <25 12>;
+            timeout-ms = <1000>;
         };
 
         layer0equal {
             bindings = <&kp EQUAL>;
             key-positions = <25 24>;
+            timeout-ms = <1000>;
         };
     };
 
@@ -73,19 +69,19 @@
 
         layer1 {
             bindings = <
-&to 0         &kp NUMBER_1   &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp NUMBER_5  &trans       &trans      &kp STAR   &kp AT    &kp PERCENT       &mt RIGHT_BRACKET LEFT_BRACKET  &kp MINUS
-&trans        &kp NUMBER_6   &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp NUMBER_0  &trans       &kp HASH    &kp AMPS   &kp EXCL  &kp SINGLE_QUOTE  &kp EQUAL
-&kp CAPSLOCK  &kp BACKSPACE  &trans        &trans        &kp CARET     &trans        &kp GRAVE    &kp DOLLAR  &kp COMMA  &kp DOT   &kp BACKSLASH     &trans
-              &trans         &trans                      &lt 0 SPACE                 &lt 2 ENTER                         &trans    &trans
+&to 0          &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp NUMBER_5  &trans       &trans      &kp STAR   &kp AT    &kp PERCENT       &mt RIGHT_BRACKET LEFT_BRACKET  &kp MINUS
+&trans         &kp NUMBER_6  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp NUMBER_0  &trans       &kp HASH    &kp AMPS   &kp EXCL  &kp SINGLE_QUOTE  &kp EQUAL
+&kp BACKSPACE  &trans        &trans        &kp CAPSLOCK  &kp CARET     &trans        &kp GRAVE    &kp DOLLAR  &kp COMMA  &kp DOT   &kp BACKSLASH     &trans
+               &trans        &trans                      &lt 0 SPACE                 &lt 2 ENTER                         &trans    &trans
             >;
         };
 
         layer2 {
             bindings = <
-&to 0   &trans  &trans  &kp F2  &trans  &trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &trans
-&trans  &trans  &kp F7  &kp F8  &kp F9  &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &mo 3   &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans     &trans  &trans
-        &trans  &trans          &trans          &trans                      &trans     &trans
+&to 0   &trans  &kp F12  &kp F2  &kp F5  &trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &trans
+&trans  &trans  &kp F7   &kp F8  &kp F9  &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans
+&trans  &trans  &trans   &trans  &trans  &trans  &trans  &trans    &trans    &trans     &trans  &trans
+        &trans  &trans           &trans          &mo 3                       &trans     &trans
             >;
         };
 
