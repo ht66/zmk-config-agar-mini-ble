@@ -76,10 +76,10 @@
 
         layer3 {
             bindings = <
-&to 0   &trans  &mkp LCLK       &mmv MOVE_UP    &mkp RCLK        &trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans  &trans
-&trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans
-&trans  &trans  &trans          &trans          &trans           &trans  &trans  &trans    &trans         &trans   &trans  &trans
-        &trans  &trans                          &trans                   &trans                           &trans   &trans
+&to 0   &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans  &mkp LCLK       &mmv MOVE_UP    &mkp RCLK        &trans  &trans  &trans
+&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans
+&trans  &trans  &trans    &trans         &trans   &trans  &trans  &trans          &trans          &trans           &trans  &trans
+        &trans  &trans                   &trans           &trans                                  &trans           &trans
             >;
         };
     };
