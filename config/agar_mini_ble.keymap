@@ -20,11 +20,13 @@
         tolayer1 {
             bindings = <&to 1>;
             key-positions = <39 25>;
+            timeout-ms = <1000>;
         };
 
         tolayer2 {
             bindings = <&to 2>;
             key-positions = <40 25>;
+            timeout-ms = <1000>;
         };
     };
 
