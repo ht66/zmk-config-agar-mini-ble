@@ -23,10 +23,10 @@
 
         layer1 {
             bindings = <
-&trans  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp KP_NUMBER_4  &kp KP_NUMBER_5  &trans  &trans      &kp STAR   &kp AT     &kp PERCENT       &mt RIGHT_PARENTHESIS LEFT_PARENTHESIS  &trans
-&trans  &kp KP_NUMBER_6  &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp KP_NUMBER_0  &trans  &kp HASH    &kp AMPS   &kp EXCL   &kp SINGLE_QUOTE  &trans
-&trans  &trans           &trans           &trans           &kp CARET        &trans           &trans  &kp DOLLAR  &kp MINUS  &kp EQUAL  &kp BACKSLASH     &trans
-        &trans           &trans                            &trans                            &trans                         &trans     &trans
+&trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp NUMBER_5  &trans  &trans      &kp STAR   &kp AT     &kp PERCENT       &mt RIGHT_PARENTHESIS LEFT_PARENTHESIS  &trans
+&trans  &kp NUMBER_6  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp NUMBER_0  &trans  &kp HASH    &kp AMPS   &kp EXCL   &kp SINGLE_QUOTE  &trans
+&trans  &trans        &trans        &trans        &kp CARET     &trans        &trans  &kp DOLLAR  &kp MINUS  &kp EQUAL  &kp BACKSLASH     &trans
+        &trans        &trans                      &trans                      &trans                         &trans     &trans
             >;
         };
 
