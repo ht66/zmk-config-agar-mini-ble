@@ -16,25 +16,25 @@
         reset {
             bindings = <&sys_reset>;
             key-positions = <0 42 37 12>;
-            timeout-ms = <200>;
+            timeout-ms = <500>;
         };
 
         tolayer0 {
             bindings = <&to 0>;
             key-positions = <39 40>;
-            timeout-ms = <200>;
+            timeout-ms = <500>;
         };
 
         tolayer1 {
             bindings = <&to 1>;
             key-positions = <13 39>;
-            timeout-ms = <200>;
+            timeout-ms = <500>;
         };
 
         tolayer2 {
             bindings = <&to 2>;
             key-positions = <40 13>;
-            timeout-ms = <200>;
+            timeout-ms = <500>;
         };
     };
 
@@ -76,8 +76,8 @@
             bindings = <
 &trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &mkp LCLK       &mmv MOVE_UP    &mkp RCLK        &trans  &trans  &trans
 &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans
-&mo 3   &trans  &trans    &trans    &trans     &trans  &trans  &trans          &trans          &trans           &trans  &trans
-        &trans  &trans              &mo 3              &mo 3                                   &trans           &trans
+&to 3   &trans  &trans    &trans    &trans     &trans  &trans  &trans          &trans          &trans           &trans  &trans
+        &trans  &trans              &mo 3              &tog 3                                  &trans           &trans
             >;
         };
 
