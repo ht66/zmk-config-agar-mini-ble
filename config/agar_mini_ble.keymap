@@ -52,56 +52,56 @@
 
         home {
             bindings = <&kp HOME>;
-            key-positions = <15 39>;
+            key-positions = <15 25>;
             timeout-ms = <3000>;
             layers = <2>;
         };
 
         end {
             bindings = <&kp END>;
-            key-positions = <17 39>;
+            key-positions = <17 25>;
             timeout-ms = <3000>;
             layers = <2>;
         };
 
         page_up {
             bindings = <&kp PAGE_UP>;
-            key-positions = <3 39>;
+            key-positions = <3 25>;
             timeout-ms = <3000>;
             layers = <2>;
         };
 
         page_down {
             bindings = <&kp PAGE_DOWN>;
-            key-positions = <16 39>;
+            key-positions = <16 25>;
             timeout-ms = <3000>;
             layers = <2>;
         };
 
         scroll_up {
             bindings = <&msc SCRL_UP>;
-            key-positions = <40 8>;
+            key-positions = <8 25>;
             timeout-ms = <3000>;
             layers = <2>;
         };
 
         scroll_down {
             bindings = <&msc SCRL_DOWN>;
-            key-positions = <40 21>;
+            key-positions = <21 25>;
             timeout-ms = <3000>;
             layers = <2>;
         };
 
         scroll_left {
             bindings = <&msc SCRL_LEFT>;
-            key-positions = <40 20>;
+            key-positions = <20 25>;
             timeout-ms = <3000>;
             layers = <2>;
         };
 
         scroll_right {
             bindings = <&msc SCRL_RIGHT>;
-            key-positions = <40 22>;
+            key-positions = <22 25>;
             timeout-ms = <3000>;
             layers = <2>;
         };
@@ -133,7 +133,7 @@
 &trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &mkp LCLK       &mmv MOVE_UP    &mkp RCLK        &trans  &trans  &trans
 &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans
 &trans  &trans  &trans    &trans    &trans     &trans  &trans  &trans          &trans          &trans           &trans  &trans
-        &trans  &trans              &none              &none                                   &trans           &trans
+        &trans  &trans              &trans             &trans                                  &trans           &trans
             >;
         };
 
