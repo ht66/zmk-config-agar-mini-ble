@@ -42,68 +42,16 @@
             key-positions = <38 41>;
             timeout-ms = <1000>;
         };
+    };
 
-        layer0flower {
-            bindings = <&kp LEFT_BRACE>;
-            key-positions = <25 11>;
-            timeout-ms = <1000>;
-            layers = <1>;
-        };
+    behaviors {
+        layer0flower: layer0flower {
+            compatible = "zmk,behavior-mod-morph";
+            label = "LAYER0FLOWER";
+            bindings = <&kp LEFT_PARENTHESIS>, <&kp LEFT_BRACE>;
 
-        home {
-            bindings = <&kp HOME>;
-            key-positions = <15 25>;
-            timeout-ms = <3000>;
-            layers = <2>;
-        };
-
-        end {
-            bindings = <&kp END>;
-            key-positions = <17 25>;
-            timeout-ms = <3000>;
-            layers = <2>;
-        };
-
-        page_up {
-            bindings = <&kp PAGE_UP>;
-            key-positions = <3 25>;
-            timeout-ms = <3000>;
-            layers = <2>;
-        };
-
-        page_down {
-            bindings = <&kp PAGE_DOWN>;
-            key-positions = <16 25>;
-            timeout-ms = <3000>;
-            layers = <2>;
-        };
-
-        scroll_up {
-            bindings = <&msc SCRL_UP>;
-            key-positions = <8 25>;
-            timeout-ms = <3000>;
-            layers = <2>;
-        };
-
-        scroll_down {
-            bindings = <&msc SCRL_DOWN>;
-            key-positions = <21 25>;
-            timeout-ms = <3000>;
-            layers = <2>;
-        };
-
-        scroll_left {
-            bindings = <&msc SCRL_LEFT>;
-            key-positions = <20 25>;
-            timeout-ms = <3000>;
-            layers = <2>;
-        };
-
-        scroll_right {
-            bindings = <&msc SCRL_RIGHT>;
-            key-positions = <22 25>;
-            timeout-ms = <3000>;
-            layers = <2>;
+            #binding-cells = <0>;
+            mods = <(MOD_LSFT)>;
         };
     };
 
