@@ -15,32 +15,95 @@
 
         reset {
             bindings = <&sys_reset>;
-            key-positions = <0 39 40>;
-            timeout-ms = <2000>;
+            key-positions = <0 42 37>;
+            timeout-ms = <1000>;
+        };
+
+        tolayer0 {
+            bindings = <&to 0>;
+            key-positions = <39 40>;
+            timeout-ms = <1000>;
         };
 
         tolayer1 {
             bindings = <&to 1>;
             key-positions = <13 39>;
-            timeout-ms = <2000>;
+            timeout-ms = <1000>;
         };
 
         tolayer2 {
             bindings = <&to 2>;
-            key-positions = <13 40>;
-            timeout-ms = <2000>;
+            key-positions = <40 13>;
+            timeout-ms = <1000>;
         };
 
         tolayer3 {
             bindings = <&to 3>;
-            key-positions = <13 40 39>;
-            timeout-ms = <2000>;
+            key-positions = <38 41>;
+            timeout-ms = <1000>;
         };
 
         layer0flower {
             bindings = <&kp LEFT_BRACE>;
             key-positions = <25 11>;
             timeout-ms = <1000>;
+            layers = <1>;
+        };
+
+        home {
+            bindings = <&kp HOME>;
+            key-positions = <15 39>;
+            timeout-ms = <3000>;
+            layers = <2>;
+        };
+
+        end {
+            bindings = <&kp END>;
+            key-positions = <17 39>;
+            timeout-ms = <3000>;
+            layers = <2>;
+        };
+
+        page_up {
+            bindings = <&kp PAGE_UP>;
+            key-positions = <3 39>;
+            timeout-ms = <3000>;
+            layers = <2>;
+        };
+
+        page_down {
+            bindings = <&kp PAGE_DOWN>;
+            key-positions = <16 39>;
+            timeout-ms = <3000>;
+            layers = <2>;
+        };
+
+        scroll_up {
+            bindings = <&msc SCRL_UP>;
+            key-positions = <40 8>;
+            timeout-ms = <3000>;
+            layers = <2>;
+        };
+
+        scroll_down {
+            bindings = <&msc SCRL_DOWN>;
+            key-positions = <40 21>;
+            timeout-ms = <3000>;
+            layers = <2>;
+        };
+
+        scroll_left {
+            bindings = <&msc SCRL_LEFT>;
+            key-positions = <40 20>;
+            timeout-ms = <3000>;
+            layers = <2>;
+        };
+
+        scroll_right {
+            bindings = <&msc SCRL_RIGHT>;
+            key-positions = <40 22>;
+            timeout-ms = <3000>;
+            layers = <2>;
         };
     };
 
@@ -58,28 +121,28 @@
 
         layer1 {
             bindings = <
-&to 0   &kp NUMBER_1   &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp NUMBER_5  &trans       &trans      &kp STAR   &kp AT    &kp PERCENT       &mt RIGHT_BRACKET LEFT_BRACKET  &kp MINUS
-&trans  &kp NUMBER_6   &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp NUMBER_0  &trans       &kp HASH    &kp AMPS   &kp EXCL  &kp SINGLE_QUOTE  &kp EQUAL
-&trans  &kp BACKSPACE  &trans        &kp CAPSLOCK  &kp CARET     &trans        &kp GRAVE    &kp DOLLAR  &kp COMMA  &kp DOT   &kp BACKSLASH     &trans
-        &trans         &trans                      &lt 0 SPACE                 &lt 2 ENTER                         &trans    &trans
+&trans          &kp NUMBER_1   &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp NUMBER_5  &trans       &trans      &kp STAR   &kp AT    &kp PERCENT       &mt RIGHT_BRACKET LEFT_BRACKET  &kp MINUS
+&trans          &kp NUMBER_6   &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp NUMBER_0  &trans       &kp HASH    &kp AMPS   &kp EXCL  &kp SINGLE_QUOTE  &kp EQUAL
+&kp LEFT_SHIFT  &kp BACKSPACE  &trans        &kp CAPSLOCK  &kp CARET     &trans        &kp GRAVE    &kp DOLLAR  &kp COMMA  &kp DOT   &kp BACKSLASH     &trans
+                &trans         &trans                      &lt 0 SPACE                 &lt 2 ENTER                         &trans    &trans
             >;
         };
 
         layer2 {
             bindings = <
-&to 0   &trans  &kp F12  &kp F2  &kp F5  &trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &trans
-&trans  &trans  &kp F7   &kp F8  &kp F9  &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans
-&trans  &trans  &trans   &trans  &trans  &trans  &trans  &trans    &trans    &trans     &trans  &trans
-        &trans  &trans           &trans          &mo 3                       &trans     &trans
+&trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &mkp LCLK       &mmv MOVE_UP    &mkp RCLK        &trans  &trans  &trans
+&trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans
+&trans  &trans  &trans    &trans    &trans     &trans  &trans  &trans          &trans          &trans           &trans  &trans
+        &trans  &trans              &none              &none                                   &trans           &trans
             >;
         };
 
         layer3 {
             bindings = <
-&to 0   &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans  &mkp LCLK       &mmv MOVE_UP    &mkp RCLK        &trans  &trans  &trans
-&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans
-&trans  &trans  &trans    &trans         &trans   &trans  &trans  &trans          &trans          &trans           &trans  &trans
-        &trans  &trans                   &trans           &trans                                  &trans           &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+        &trans  &trans          &trans          &trans                  &trans  &trans
             >;
         };
     };
