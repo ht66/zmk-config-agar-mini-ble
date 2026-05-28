@@ -15,32 +15,26 @@
 
         reset {
             bindings = <&sys_reset>;
-            key-positions = <0 42 37>;
-            timeout-ms = <1000>;
+            key-positions = <0 42 37 12>;
+            timeout-ms = <200>;
         };
 
         tolayer0 {
             bindings = <&to 0>;
             key-positions = <39 40>;
-            timeout-ms = <1000>;
+            timeout-ms = <200>;
         };
 
         tolayer1 {
             bindings = <&to 1>;
             key-positions = <13 39>;
-            timeout-ms = <1000>;
+            timeout-ms = <200>;
         };
 
         tolayer2 {
             bindings = <&to 2>;
             key-positions = <40 13>;
-            timeout-ms = <1000>;
-        };
-
-        tolayer3 {
-            bindings = <&to 3>;
-            key-positions = <38 41>;
-            timeout-ms = <1000>;
+            timeout-ms = <200>;
         };
     };
 
@@ -51,78 +45,6 @@
             bindings =
                 <&mt RIGHT_PARENTHESIS LEFT_PARENTHESIS>,
                 <&kp LEFT_BRACE>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT)>;
-        };
-
-        up: up {
-            compatible = "zmk,behavior-mod-morph";
-            label = "UP";
-            bindings = <&kp UP>, <&kp PAGE_UP>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT)>;
-        };
-
-        down: down {
-            compatible = "zmk,behavior-mod-morph";
-            label = "DOWN";
-            bindings = <&kp DOWN>, <&kp PAGE_DOWN>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT)>;
-        };
-
-        left: left {
-            compatible = "zmk,behavior-mod-morph";
-            label = "LEFT";
-            bindings = <&kp LEFT>, <&kp HOME>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT)>;
-        };
-
-        right: right {
-            compatible = "zmk,behavior-mod-morph";
-            label = "RIGHT";
-            bindings = <&kp RIGHT>, <&kp END>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT)>;
-        };
-
-        mouse_up: mouse_up {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MOUSE_UP";
-            bindings = <&mmv MOVE_UP>, <&msc SCRL_UP>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT)>;
-        };
-
-        mouse_down: mouse_down {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MOUSE_DOWN";
-            bindings = <&mmv MOVE_DOWN>, <&msc SCRL_DOWN>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT)>;
-        };
-
-        mouse_left: mouse_left {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MOUSE_LEFT";
-            bindings = <&mmv MOVE_LEFT>, <&msc SCRL_LEFT>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_LSFT)>;
-        };
-
-        mouse_right: mouse_right {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MOUSE_RIGHT";
-            bindings = <&mmv MOVE_RIGHT>, <&msc SCRL_RIGHT>;
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT)>;
@@ -152,19 +74,19 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &trans  &up     &trans  &trans  &trans        &mkp LCLK    &mouse_up    &mkp RCLK     &trans          &trans  &trans
-&trans  &trans  &left   &down   &right  &trans  &msc SCRL_UP  &mouse_left  &mouse_down  &mouse_right  &msc SCRL_DOWN  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans       &trans       &trans        &trans          &trans
-        &trans  &trans          &trans          &trans                                  &trans        &trans
+&trans  &trans  &trans    &kp UP    &trans     &trans  &trans  &mkp LCLK       &mmv MOVE_UP    &mkp RCLK        &trans  &trans  &trans
+&trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans
+&mo 3   &trans  &trans    &trans    &trans     &trans  &trans  &trans          &trans          &trans           &trans  &trans
+        &trans  &trans              &mo 3              &mo 3                                   &trans           &trans
             >;
         };
 
         layer3 {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-        &trans  &trans          &trans          &trans                  &trans  &trans
+&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans  &trans          &msc SCRL_UP    &trans           &trans  &trans  &trans
+&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans  &msc SCRL_LEFT  &mmv MOVE_DOWN  &msc SCRL_RIGHT  &trans  &trans
+&trans  &trans  &trans    &trans         &trans   &trans  &trans  &trans          &trans          &trans           &trans  &trans
+        &trans  &trans                   &trans           &trans                                  &trans           &trans
             >;
         };
     };
