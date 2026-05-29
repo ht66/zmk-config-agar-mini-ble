@@ -1,10 +1,14 @@
-#include <zephyr/kernel.h>
-#include <drivers/behavior.h>          // <-- 必须包含此头文件，获得完整类型
+#define DT_DRV_COMPAT zmk_behavior_kp2
+
+#include <zephyr/device.h>
+#include <drivers/behavior.h>
+#include <zephyr/logging/log.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/keycode_state_changed.h>
 #include <zmk/keymap.h>
 
-// 由 toggle.c 维护的全局开关
+LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+
 extern bool kp2_alt_active;
 
 struct kp2_state {
@@ -69,10 +73,13 @@ static int on_kp2_released(struct zmk_behavior_binding *binding,
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
-// 标准驱动接口，无 data_size 字段
 static const struct behavior_driver_api kp2_driver_api = {
         .binding_pressed = on_kp2_pressed,
         .binding_released = on_kp2_released,
 };
 
-ZMK_BEHAVIOR_DEFINE(kp2, kp2_driver_api);
+#define KP2_INST(n) \
+    BEHAVIOR_DT_INST_DEFINE(n, NULL, NULL, NULL, NULL, POST_KERNEL, \
+                            CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, &kp2_driver_api);
+
+DT_INST_FOREACH_STATUS_OKAY(KP2_INST)

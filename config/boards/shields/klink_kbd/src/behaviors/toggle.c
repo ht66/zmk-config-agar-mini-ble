@@ -1,6 +1,10 @@
-#include <zephyr/kernel.h>
+#define DT_DRV_COMPAT zmk_behavior_toggle
+
+#include <zephyr/device.h>
 #include <drivers/behavior.h>
-#include <zmk/behavior.h>
+#include <zephyr/logging/log.h>
+
+LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 bool kp2_alt_active = false;
 
@@ -25,4 +29,8 @@ static const struct behavior_driver_api toggle_driver_api = {
         .binding_released = on_toggle_released,
 };
 
-ZMK_BEHAVIOR_DEFINE(toggle, toggle_driver_api);
+#define TOGGLE_INST(n) \
+    BEHAVIOR_DT_INST_DEFINE(n, NULL, NULL, NULL, NULL, POST_KERNEL, \
+                            CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, &toggle_driver_api);
+
+DT_INST_FOREACH_STATUS_OKAY(TOGGLE_INST)
