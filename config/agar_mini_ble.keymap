@@ -17,7 +17,7 @@
         reset {
             bindings = <&sys_reset>;
             key-positions = <0 42 37 12>;
-            timeout-ms = <500>;
+            timeout-ms = <1000>;
         };
 
         tolayer0 {
