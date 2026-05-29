@@ -4,4 +4,4 @@ zephyr_library()
 zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
 zephyr_library_sources(src/klink_indicator.c)
 
-zephyr_library_sources(src/behaviors/kp2.c src/behaviors/toggle.c)
+zephyr_library_sources(src/behaviors/kp2.c src/behaviors/toggle.c behaviors/mv.c)

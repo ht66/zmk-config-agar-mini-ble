@@ -10,13 +10,18 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
+#define MV_U(fast, slow)    &mv ((0 << 8) | fast) slow
+#define MV_D(fast, slow)    &mv ((1 << 8) | fast) slow
+#define MV_L(fast, slow)    &mv ((2 << 8) | fast) slow
+#define MV_R(fast, slow)    &mv ((3 << 8) | fast) slow
+
 / {
     combos {
         compatible = "zmk,combos";
 
         bootloader {
             bindings = <&bootloader>;
-            key-positions = <0 42 37 12>;
+            key-positions = <0 37 42>;
             timeout-ms = <2000>;
         };
 
@@ -171,10 +176,10 @@
 
         layer_4 {
             bindings = <
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  MV_U(600, 200)  &trans  &trans  &trans  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  MV_L(600, 200)  MV_D(600, 200)  MV_R(600, 200)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-        &trans        &trans                      &trans          &trans                  &trans  &trans
+        &trans        &trans                      &trans          &toggle                  &trans  &trans
             >;
         };
     };
