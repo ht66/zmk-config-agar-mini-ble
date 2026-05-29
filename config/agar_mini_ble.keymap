@@ -63,7 +63,7 @@
             bindings = <&mmv MOVE_Y(-300)>, <&mmv MOVE_Y(-600)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RSFT)>;
+            mods = <(MOD_RALT)>;
         };
 
         mouse_down: mouse_down {
@@ -72,7 +72,7 @@
             bindings = <&mmv MOVE_Y(300)>, <&mmv MOVE_Y(600)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RSFT)>;
+            mods = <(MOD_RALT)>;
         };
 
         mouse_left: mouse_left {
@@ -81,7 +81,7 @@
             bindings = <&mmv MOVE_X(-300)>, <&mmv MOVE_X(-600)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RSFT)>;
+            mods = <(MOD_RALT)>;
         };
 
         mouse_right: mouse_right {
@@ -90,7 +90,7 @@
             bindings = <&mmv MOVE_X(300)>, <&mmv MOVE_X(600)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RSFT)>;
+            mods = <(MOD_RALT)>;
         };
 
         scroll_up: scroll_up {
@@ -99,7 +99,7 @@
             bindings = <&msc MOVE_Y(10)>, <&msc MOVE_Y(20)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RSFT)>;
+            mods = <(MOD_RALT)>;
         };
 
         scroll_down: scroll_down {
@@ -108,7 +108,7 @@
             bindings = <&msc MOVE_Y(-10)>, <&msc MOVE_Y(-20)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RSFT)>;
+            mods = <(MOD_RALT)>;
         };
 
         scroll_left: scroll_left {
@@ -117,7 +117,7 @@
             bindings = <&msc MOVE_X(-10)>, <&msc MOVE_X(-20)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RSFT)>;
+            mods = <(MOD_RALT)>;
         };
 
         scroll_right: scroll_right {
@@ -126,7 +126,7 @@
             bindings = <&msc MOVE_X(10)>, <&msc MOVE_X(20)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RSFT)>;
+            mods = <(MOD_RALT)>;
         };
     };
 
@@ -153,19 +153,19 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans           &mkp LCLK    &mouse_up    &mkp RCLK     &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans           &mouse_left  &mouse_down  &mouse_right  &tog 3  &trans
-&trans  &trans  &trans     &trans    &trans     &trans  &trans           &trans       &trans       &trans        &trans  &trans
-        &trans  &trans               &mo 3              &kp RIGHT_SHIFT                            &trans        &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &mouse_up    &mkp RCLK     &trans  &trans  &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &mouse_left  &mouse_down  &mouse_right  &tog 3  &trans
+&trans  &trans  &trans     &trans    &trans     &trans  &trans         &trans       &trans       &trans        &trans  &trans
+        &trans  &trans               &mo 3              &kp RIGHT_ALT                            &trans        &trans
             >;
         };
 
         layer_3 {
             bindings = <
-&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans           &trans        &scroll_up    &trans         &trans  &trans  &trans
-&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans           &scroll_left  &scroll_down  &scroll_right  &trans  &trans
-&trans  &trans  &trans    &trans         &trans   &trans  &trans           &trans        &trans        &trans         &trans  &trans
-        &trans  &trans                   &trans           &kp RIGHT_SHIFT                              &trans         &trans
+&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans         &trans        &scroll_up    &trans         &trans  &trans  &trans
+&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans         &scroll_left  &scroll_down  &scroll_right  &trans  &trans
+&trans  &trans  &trans    &trans         &trans   &trans  &trans         &trans        &trans        &trans         &trans  &trans
+        &trans  &trans                   &trans           &kp RIGHT_ALT                              &trans         &trans
             >;
         };
 
