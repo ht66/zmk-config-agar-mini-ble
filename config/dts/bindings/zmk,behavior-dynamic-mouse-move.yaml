@@ -15,4 +15,5 @@ properties:
     default: 1
   "#binding-cells":
     type: int
+    required: true
     const: 1
