@@ -3,13 +3,20 @@
 #include <zephyr/device.h>
 #include <drivers/behavior.h>
 #include <zephyr/logging/log.h>
-#include <zephyr/input/input.h>
 #include <zmk/behavior.h>
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
+// 速度开关标志（由 toggle 维护）
 extern bool kp2_alt_active;
 
+// 获取我们在 overlay 中定义的 mva 设备指针
+#define MV_DEV DEVICE_DT_GET(DT_NODELABEL(mva))
+
+// 声明 behavior_input_two_axis 提供的调节函数
+extern int behavior_input_two_axis_adjust_speed(const struct device *dev, int16_t dx, int16_t dy);
+
+// 方向枚举（与 keymap 宏对应）
 enum mv_dir {
     MV_UP    = 0,
     MV_DOWN  = 1,
@@ -17,79 +24,54 @@ enum mv_dir {
     MV_RIGHT = 3,
 };
 
-struct mv_state {
-    bool active;
-    struct k_timer timer;
+// 从绑定的参数中解析方向和速度
+static void mv_get_params(struct zmk_behavior_binding *binding, uint8_t *dir,
+                          int8_t *fast, int8_t *slow) {
+    *dir = (binding->param1 >> 8) & 0xFF;
+    *fast = (int8_t)(binding->param1 & 0xFF);
+    *slow = (int8_t)(binding->param2 & 0xFF);
+}
+
+static int on_mv_pressed(struct zmk_behavior_binding *binding,
+                         struct zmk_behavior_binding_event event) {
     uint8_t dir;
-    int8_t fast_speed;
-    int8_t slow_speed;
-    const struct device *mouse_dev;
-};
+    int8_t fast, slow;
+    mv_get_params(binding, &dir, &fast, &slow);
 
-#ifndef ZMK_KEYMAP_LEN
-#define ZMK_KEYMAP_LEN 128
-#endif
-
-static struct mv_state states[ZMK_KEYMAP_LEN];
-
-static void mv_timer_handler(struct k_timer *timer) {
-    struct mv_state *state = CONTAINER_OF(timer, struct mv_state, timer);
-    if (!state->active || !state->mouse_dev) return;
-
-    int8_t speed = kp2_alt_active ? state->slow_speed : state->fast_speed;
+    // 根据当前开关状态选择速度值
+    int8_t speed = kp2_alt_active ? slow : fast;
     int16_t dx = 0, dy = 0;
 
-    switch (state->dir) {
+    switch (dir) {
         case MV_UP:    dy = -speed; break;
         case MV_DOWN:  dy =  speed; break;
         case MV_LEFT:  dx = -speed; break;
         case MV_RIGHT: dx =  speed; break;
     }
 
-    // 使用 ZMK 标准鼠标输入设备发送相对移动
-    if (dx != 0) {
-        input_report_rel(state->mouse_dev, INPUT_REL_X, dx, false, K_NO_WAIT);
-    }
-    if (dy != 0) {
-        input_report_rel(state->mouse_dev, INPUT_REL_Y, dy, true, K_NO_WAIT);
-    }
-}
-
-static int on_mv_pressed(struct zmk_behavior_binding *binding,
-                         struct zmk_behavior_binding_event event) {
-    uint32_t pos = event.position;
-    if (pos >= ZMK_KEYMAP_LEN) return -EINVAL;
-
-    struct mv_state *state = &states[pos];
-    state->active = true;
-    state->dir = (binding->param1 >> 8) & 0xFF;
-    state->fast_speed = (int8_t)(binding->param1 & 0xFF);
-    state->slow_speed = (int8_t)(binding->param2 & 0xFF);
-
-    // 获取 ZMK 的标准鼠标输入设备（注意名称是 "zmk_mouse"）
-    state->mouse_dev = device_get_binding("zmk_mouse");
-    if (state->mouse_dev) {
-        k_timer_start(&state->timer, K_MSEC(12), K_MSEC(12));
-    } else {
-        LOG_WRN("Mouse device not found");
-    }
+    // 调用引擎的 adjust_speed，增加移动速度
+    behavior_input_two_axis_adjust_speed(MV_DEV, dx, dy);
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
 static int on_mv_released(struct zmk_behavior_binding *binding,
                           struct zmk_behavior_binding_event event) {
-    uint32_t pos = event.position;
-    if (pos >= ZMK_KEYMAP_LEN) return -EINVAL;
+    uint8_t dir;
+    int8_t fast, slow;
+    mv_get_params(binding, &dir, &fast, &slow);
 
-    struct mv_state *state = &states[pos];
-    state->active = false;
-    k_timer_stop(&state->timer);
+    int8_t speed = kp2_alt_active ? slow : fast;
+    int16_t dx = 0, dy = 0;
 
-    // 停止移动
-    if (state->mouse_dev) {
-        input_report_rel(state->mouse_dev, INPUT_REL_X, 0, false, K_NO_WAIT);
-        input_report_rel(state->mouse_dev, INPUT_REL_Y, 0, true, K_NO_WAIT);
+    switch (dir) {
+        case MV_UP:    dy = -speed; break;
+        case MV_DOWN:  dy =  speed; break;
+        case MV_LEFT:  dx = -speed; break;
+        case MV_RIGHT: dx =  speed; break;
     }
+
+    // 释放时减去之前增加的速度，让引擎停止该方向的移动
+    behavior_input_two_axis_adjust_speed(MV_DEV, -dx, -dy);
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
