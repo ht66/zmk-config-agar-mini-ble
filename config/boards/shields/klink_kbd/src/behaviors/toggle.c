@@ -1,4 +1,5 @@
 #include <zephyr/kernel.h>
+#include <drivers/behavior.h>
 #include <zmk/behavior.h>
 
 bool kp2_alt_active = false;
@@ -22,7 +23,6 @@ static int on_toggle_released(struct zmk_behavior_binding *binding,
 static const struct behavior_driver_api toggle_driver_api = {
         .binding_pressed = on_toggle_pressed,
         .binding_released = on_toggle_released,
-        .data_size = 0,
 };
 
 ZMK_BEHAVIOR_DEFINE(toggle, toggle_driver_api);
