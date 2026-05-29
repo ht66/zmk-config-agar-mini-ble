@@ -96,7 +96,7 @@ static void decode_move_param(uint32_t param, bool *is_x, int8_t *delta) {
 /* 按键按下：解析轴和增量，更新累加器 */
 static int on_dyn_mmv_binding_pressed(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
-    const struct device *dev = zmk_behavior_get_device(binding->behavior_dev);
+    const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     struct dynamic_mouse_move_data *data = dev->data;
     bool is_x;
     int8_t delta;
@@ -120,7 +120,7 @@ static int on_dyn_mmv_binding_pressed(struct zmk_behavior_binding *binding,
 /* 按键释放：关闭对应轴 */
 static int on_dyn_mmv_binding_released(struct zmk_behavior_binding *binding,
                                        struct zmk_behavior_binding_event event) {
-    const struct device *dev = zmk_behavior_get_device(binding->behavior_dev);
+    const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     struct dynamic_mouse_move_data *data = dev->data;
     bool is_x;
     int8_t delta;

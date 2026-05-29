@@ -17,7 +17,7 @@ struct speed_modifier_config {
 
 static int on_speed_modifier_press(struct zmk_behavior_binding *binding,
                                    struct zmk_behavior_binding_event event) {
-    const struct device *dev = zmk_behavior_get_device(binding->behavior_dev);
+    const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct speed_modifier_config *cfg = dev->config;
     if (cfg->target) {
         /* 设备树存的是整数百分比，转换为浮点因子 */
@@ -29,7 +29,7 @@ static int on_speed_modifier_press(struct zmk_behavior_binding *binding,
 
 static int on_speed_modifier_release(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
-    const struct device *dev = zmk_behavior_get_device(binding->behavior_dev);
+    const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct speed_modifier_config *cfg = dev->config;
     if (cfg->target) {
         dyn_mmv_set_speed_factor(cfg->target, 1.0f);
