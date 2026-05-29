@@ -1,3 +1,16 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: Enhanced key press with dynamic toggle
+
 compatible: "zmk,behavior-kp2"
-description: "Enhanced key press with dynamic toggle"
-"#binding-cells": 2
+
+properties:
+  "#binding-cells":
+    type: int
+    required: true
+    const: 2
+
+binding-cells:
+  - param1
+  - param2
