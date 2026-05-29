@@ -176,8 +176,8 @@
 
         layer_4 {
             bindings = <
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  MV_U(600, 200)  &trans  &trans  &trans  &trans
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  MV_L(600, 200)  MV_D(600, 200)  MV_R(600, 200)  &trans  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  &dmmv MOVE_Y(-10)  &trans  &trans  &trans  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  &dmmv MOVE_X(-10)  &dmmv MOVE_Y(10)  &dmmv MOVE_X(10)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
         &trans        &trans                      &trans          &toggle                  &trans  &trans
             >;

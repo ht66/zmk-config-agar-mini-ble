@@ -1,0 +1,18 @@
+compatible: "zmk,behavior-dynamic-mouse-move"
+description: "Mouse movement with runtime adjustable speed factor"
+properties:
+  x-input-code:
+    type: int
+    required: true
+  y-input-code:
+    type: int
+    required: true
+  time-to-max-speed-ms:
+    type: int
+    default: 300
+  acceleration-exponent:
+    type: int
+    default: 1
+  "#binding-cells":
+    type: int
+    const: 1
