@@ -39,7 +39,7 @@
         };
 
         tolayer4 {
-            bindings = <&to 4>;
+            bindings = <&to 0>;
             key-positions = <38 41>;
             timeout-ms = <500>;
         };
@@ -153,10 +153,10 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &mouse_up    &mkp RCLK     &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &mouse_left  &mouse_down  &mouse_right  &tog 3  &trans
-&trans  &trans  &trans     &trans    &trans     &trans  &trans         &trans       &trans       &trans        &trans  &trans
-        &trans  &trans               &mo 3              &kp RIGHT_ALT                            &trans        &trans
+&trans          &trans        &mkp LCLK     &kp UP        &mkp RCLK     &trans  &trans         &mkp LCLK    &mouse_up    &mkp RCLK     &trans  &trans  &trans
+&trans          &trans        &kp LEFT      &kp DOWN      &kp RIGHT     &trans  &trans         &mouse_left  &mouse_down  &mouse_right  &tog 3  &trans
+&bt BT_CLR_ALL  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &trans  &trans         &trans       &trans       &trans        &trans  &trans
+                &trans        &trans                      &mo 3                 &kp RIGHT_ALT                            &trans        &trans
             >;
         };
 
@@ -166,15 +166,6 @@
 &trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans         &scroll_left  &scroll_down  &scroll_right  &trans  &trans
 &trans  &trans  &trans    &trans         &trans   &trans  &trans         &trans        &trans        &trans         &trans  &trans
         &trans  &trans                   &trans           &kp RIGHT_ALT                              &trans         &trans
-            >;
-        };
-
-        layer_4 {
-            bindings = <
-&trans  &trans        &trans        &trans          &trans      &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans        &trans        &trans          &trans      &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3    &trans      &trans  &trans  &trans  &trans  &trans  &trans  &trans
-        &trans        &trans                        &bt BT_CLR          &trans                  &trans  &trans
             >;
         };
     };
