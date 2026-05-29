@@ -38,8 +38,8 @@
             timeout-ms = <500>;
         };
 
-        tolayer6 {
-            bindings = <&to 6>;
+        tolayer4 {
+            bindings = <&to 4>;
             key-positions = <38 41>;
             timeout-ms = <500>;
         };
@@ -55,6 +55,78 @@
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT)>;
+        };
+
+        mouse_up: mouse_up {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOUSE_UP";
+            bindings = <&mmv MOVE_Y(-300)>, <&mmv MOVE_Y(-600)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RCTL)>;
+        };
+
+        mouse_down: mouse_down {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOUSE_DOWN";
+            bindings = <&mmv MOVE_Y(300)>, <&mmv MOVE_Y(600)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RCTL)>;
+        };
+
+        mouse_left: mouse_left {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOUSE_LEFT";
+            bindings = <&mmv MOVE_X(-300)>, <&mmv MOVE_X(-600)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RCTL)>;
+        };
+
+        mouse_right: mouse_right {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOUSE_RIGHT";
+            bindings = <&mmv MOVE_X(300)>, <&mmv MOVE_X(600)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RCTL)>;
+        };
+
+        scroll_up: scroll_up {
+            compatible = "zmk,behavior-mod-morph";
+            label = "SCROLL_UP";
+            bindings = <&msc MOVE_Y(10)>, <&msc MOVE_Y(20)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RCTL)>;
+        };
+
+        scroll_down: scroll_down {
+            compatible = "zmk,behavior-mod-morph";
+            label = "SCROLL_DOWN";
+            bindings = <&msc MOVE_Y(-10)>, <&msc MOVE_Y(-20)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RCTL)>;
+        };
+
+        scroll_left: scroll_left {
+            compatible = "zmk,behavior-mod-morph";
+            label = "SCROLL_LEFT";
+            bindings = <&msc MOVE_X(-10)>, <&msc MOVE_X(-20)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RCTL)>;
+        };
+
+        scroll_right: scroll_right {
+            compatible = "zmk,behavior-mod-morph";
+            label = "SCROLL_RIGHT";
+            bindings = <&msc MOVE_X(10)>, <&msc MOVE_X(20)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RCTL)>;
         };
     };
 
@@ -81,41 +153,23 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans        &mkp LCLK          &mmv MOVE_Y(-300)  &mkp RCLK         &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans        &mmv MOVE_X(-400)  &mmv MOVE_Y(300)   &mmv MOVE_X(400)  &tog 4  &trans
-&trans  &trans  &trans     &trans    &trans     &trans  &trans        &trans             &trans             &trans            &trans  &trans
-        &trans  &trans               &trans             &lt 3 K_UNDO                                        &trans            &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans             &mkp LCLK          &mmv MOVE_Y(-300)  &mkp RCLK         &trans  &trans  &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans             &mmv MOVE_X(-400)  &mmv MOVE_Y(300)   &mmv MOVE_X(400)  &tog 3  &trans
+&trans  &trans  &trans     &trans    &trans     &trans  &trans             &trans             &trans             &trans            &trans  &trans
+        &trans  &trans               &mo 3              &kp RIGHT_CONTROL                                        &trans            &trans
             >;
         };
 
-        layer3 {
+        layer_3 {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans             &mmv MOVE_Y(-600)  &trans            &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &mmv MOVE_X(-600)  &mmv MOVE_Y(600)   &mmv MOVE_X(600)  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans             &trans             &trans            &trans  &trans
-        &trans  &trans          &trans          &trans                                        &trans            &trans
+&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans             &trans            &msc MOVE_Y(10)   &trans           &trans  &trans  &trans
+&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans             &msc MOVE_X(-10)  &msc MOVE_Y(-10)  &msc MOVE_X(10)  &trans  &trans
+&trans  &trans  &trans    &trans         &trans   &trans  &trans             &trans            &trans            &trans           &trans  &trans
+        &trans  &trans                   &trans           &kp RIGHT_CONTROL                                      &trans           &trans
             >;
         };
 
         layer_4 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans            &msc MOVE_Y(10)   &trans           &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &msc MOVE_X(-10)  &msc MOVE_Y(-10)  &msc MOVE_X(10)  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans            &trans            &trans           &trans  &trans
-        &trans  &trans          &trans          &lt 5 K_UNDO                                      &trans           &trans
-            >;
-        };
-
-        layer_5 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans            &msc MOVE_Y(20)   &trans           &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &msc MOVE_X(-20)  &msc MOVE_Y(-20)  &msc MOVE_X(20)  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans            &trans            &trans           &trans  &trans
-        &trans  &trans          &trans          &trans                                      &trans           &trans
-            >;
-        };
-
-        layer_6 {
             bindings = <
 &trans  &trans        &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans        &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
