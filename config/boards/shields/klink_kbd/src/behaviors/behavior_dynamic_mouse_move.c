@@ -11,6 +11,7 @@
 #include <zmk/workqueue.h>
 #include <math.h>
 #include <dt-bindings/zmk/pointing.h>
+#include <drivers/behavior.h>
 
 #include "behavior_dynamic_mouse_move.h"
 
