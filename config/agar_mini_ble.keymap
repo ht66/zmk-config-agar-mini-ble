@@ -153,19 +153,19 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans           &mkp LCLK          &mmv MOVE_Y(-300)  &mkp RCLK         &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans           &mmv MOVE_X(-400)  &mmv MOVE_Y(300)   &mmv MOVE_X(400)  &tog 3  &trans
-&trans  &trans  &trans     &trans    &trans     &trans  &trans           &trans             &trans             &trans            &trans  &trans
-        &trans  &trans               &mo 3              &kp RIGHT_SHIFT                                        &trans            &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans           &mkp LCLK    &mouse_up    &mkp RCLK     &trans  &trans  &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans           &mouse_left  &mouse_down  &mouse_right  &tog 3  &trans
+&trans  &trans  &trans     &trans    &trans     &trans  &trans           &trans       &trans       &trans        &trans  &trans
+        &trans  &trans               &mo 3              &kp RIGHT_SHIFT                            &trans        &trans
             >;
         };
 
         layer_3 {
             bindings = <
-&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans           &trans            &msc MOVE_Y(10)   &trans           &trans  &trans  &trans
-&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans           &msc MOVE_X(-10)  &msc MOVE_Y(-10)  &msc MOVE_X(10)  &trans  &trans
-&trans  &trans  &trans    &trans         &trans   &trans  &trans           &trans            &trans            &trans           &trans  &trans
-        &trans  &trans                   &trans           &kp RIGHT_SHIFT                                      &trans           &trans
+&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans           &trans       &scroll_up    &trans        &trans  &trans  &trans
+&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans           &mouse_left  &scroll_down  &mouse_right  &trans  &trans
+&trans  &trans  &trans    &trans         &trans   &trans  &trans           &trans       &trans        &trans        &trans  &trans
+        &trans  &trans                   &trans           &kp RIGHT_SHIFT                             &trans        &trans
             >;
         };
 
