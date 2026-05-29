@@ -14,8 +14,8 @@
     combos {
         compatible = "zmk,combos";
 
-        reset {
-            bindings = <&sys_reset>;
+        bootloader {
+            bindings = <&bootloader>;
             key-positions = <0 42 37 12>;
             timeout-ms = <1000>;
         };
