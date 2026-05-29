@@ -8,7 +8,6 @@
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
-// 由 toggle.c 维护的全局速度标志
 extern bool kp2_alt_active;
 
 enum mv_dir {
@@ -37,7 +36,7 @@ static void mv_timer_handler(struct k_timer *timer) {
     if (!state->active) return;
 
     int8_t speed = kp2_alt_active ? state->slow_speed : state->fast_speed;
-    int8_t dx = 0, dy = 0;
+    int16_t dx = 0, dy = 0;  // 改为 int16_t
 
     switch (state->dir) {
         case MV_UP:    dy = -speed; break;
@@ -46,7 +45,12 @@ static void mv_timer_handler(struct k_timer *timer) {
         case MV_RIGHT: dx =  speed; break;
     }
 
-    struct zmk_hid_mouse_report report = { .x = dx, .y = dy };
+    // 使用正确的结构体成员名
+    struct zmk_hid_mouse_report_body report = {
+            .d_x = dx,
+            .d_y = dy,
+    };
+
     zmk_hid_mouse_report_set(&report);
 }
 
@@ -74,7 +78,7 @@ static int on_mv_released(struct zmk_behavior_binding *binding,
     state->active = false;
     k_timer_stop(&state->timer);
 
-    struct zmk_hid_mouse_report stop = {0};
+    struct zmk_hid_mouse_report_body stop = {0};
     zmk_hid_mouse_report_set(&stop);
     return ZMK_BEHAVIOR_OPAQUE;
 }
