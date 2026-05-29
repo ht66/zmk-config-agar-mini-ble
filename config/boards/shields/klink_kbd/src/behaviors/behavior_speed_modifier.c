@@ -11,7 +11,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 struct speed_modifier_config {
     const struct device *target;   /* 指向要控制的 dmmv 实例 */
-    float slow_factor;             /* 减速系数 */
+    int slow_factor;             /* 减速系数 */
 };
 
 static int on_speed_modifier_press(struct zmk_behavior_binding *binding,
@@ -19,7 +19,9 @@ static int on_speed_modifier_press(struct zmk_behavior_binding *binding,
     const struct device *dev = zmk_behavior_get_device(binding->behavior_dev);
     const struct speed_modifier_config *cfg = dev->config;
     if (cfg->target) {
-        dyn_mmv_set_speed_factor(cfg->target, cfg->slow_factor);
+        /* 设备树存的是整数百分比，转换为浮点因子 */
+        float factor = (float)cfg->slow_factor / 100.0f;
+        dyn_mmv_set_speed_factor(cfg->target, factor);
     }
     return 0;
 }

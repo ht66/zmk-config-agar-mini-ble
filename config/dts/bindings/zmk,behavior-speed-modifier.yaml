@@ -6,7 +6,7 @@ properties:
     required: true
     description: "Phandle to dynamic_mouse_move node"
   slow_factor:
-    type: float
+    type: int
     required: true
     description: "Speed multiplier while key is held"
   "#binding-cells":
