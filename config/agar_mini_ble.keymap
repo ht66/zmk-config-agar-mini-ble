@@ -63,7 +63,7 @@
             bindings = <&mmv MOVE_Y(-300)>, <&mmv MOVE_Y(-600)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RCTL)>;
+            mods = <(MOD_RSFT)>;
         };
 
         mouse_down: mouse_down {
@@ -72,7 +72,7 @@
             bindings = <&mmv MOVE_Y(300)>, <&mmv MOVE_Y(600)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RCTL)>;
+            mods = <(MOD_RSFT)>;
         };
 
         mouse_left: mouse_left {
@@ -81,7 +81,7 @@
             bindings = <&mmv MOVE_X(-300)>, <&mmv MOVE_X(-600)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RCTL)>;
+            mods = <(MOD_RSFT)>;
         };
 
         mouse_right: mouse_right {
@@ -90,7 +90,7 @@
             bindings = <&mmv MOVE_X(300)>, <&mmv MOVE_X(600)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RCTL)>;
+            mods = <(MOD_RSFT)>;
         };
 
         scroll_up: scroll_up {
@@ -99,7 +99,7 @@
             bindings = <&msc MOVE_Y(10)>, <&msc MOVE_Y(20)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RCTL)>;
+            mods = <(MOD_RSFT)>;
         };
 
         scroll_down: scroll_down {
@@ -108,7 +108,7 @@
             bindings = <&msc MOVE_Y(-10)>, <&msc MOVE_Y(-20)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RCTL)>;
+            mods = <(MOD_RSFT)>;
         };
 
         scroll_left: scroll_left {
@@ -117,7 +117,7 @@
             bindings = <&msc MOVE_X(-10)>, <&msc MOVE_X(-20)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RCTL)>;
+            mods = <(MOD_RSFT)>;
         };
 
         scroll_right: scroll_right {
@@ -126,7 +126,7 @@
             bindings = <&msc MOVE_X(10)>, <&msc MOVE_X(20)>;
 
             #binding-cells = <0>;
-            mods = <(MOD_RCTL)>;
+            mods = <(MOD_RSFT)>;
         };
     };
 
@@ -153,19 +153,19 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans             &mkp LCLK          &mmv MOVE_Y(-300)  &mkp RCLK         &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans             &mmv MOVE_X(-400)  &mmv MOVE_Y(300)   &mmv MOVE_X(400)  &tog 3  &trans
-&trans  &trans  &trans     &trans    &trans     &trans  &trans             &trans             &trans             &trans            &trans  &trans
-        &trans  &trans               &mo 3              &kp RIGHT_CONTROL                                        &trans            &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans           &mkp LCLK          &mmv MOVE_Y(-300)  &mkp RCLK         &trans  &trans  &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans           &mmv MOVE_X(-400)  &mmv MOVE_Y(300)   &mmv MOVE_X(400)  &tog 3  &trans
+&trans  &trans  &trans     &trans    &trans     &trans  &trans           &trans             &trans             &trans            &trans  &trans
+        &trans  &trans               &mo 3              &kp RIGHT_SHIFT                                        &trans            &trans
             >;
         };
 
         layer_3 {
             bindings = <
-&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans             &trans            &msc MOVE_Y(10)   &trans           &trans  &trans  &trans
-&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans             &msc MOVE_X(-10)  &msc MOVE_Y(-10)  &msc MOVE_X(10)  &trans  &trans
-&trans  &trans  &trans    &trans         &trans   &trans  &trans             &trans            &trans            &trans           &trans  &trans
-        &trans  &trans                   &trans           &kp RIGHT_CONTROL                                      &trans           &trans
+&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans           &trans            &msc MOVE_Y(10)   &trans           &trans  &trans  &trans
+&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans           &msc MOVE_X(-10)  &msc MOVE_Y(-10)  &msc MOVE_X(10)  &trans  &trans
+&trans  &trans  &trans    &trans         &trans   &trans  &trans           &trans            &trans            &trans           &trans  &trans
+        &trans  &trans                   &trans           &kp RIGHT_SHIFT                                      &trans           &trans
             >;
         };
 
