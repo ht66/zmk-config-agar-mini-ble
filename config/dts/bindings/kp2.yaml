@@ -1,2 +1,3 @@
 compatible: "zmk,behavior-kp2"
 description: "Enhanced key press with dynamic toggle"
+"#binding-cells": 2

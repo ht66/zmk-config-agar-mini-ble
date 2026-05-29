@@ -1,2 +1,3 @@
 compatible: "zmk,behavior-toggle"
 description: "Toggle switch for kp2 behavior"
+"#binding-cells": 0
