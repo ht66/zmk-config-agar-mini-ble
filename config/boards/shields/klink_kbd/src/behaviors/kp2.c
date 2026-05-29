@@ -2,27 +2,28 @@
 #include <zmk/behavior.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/keycode_state_changed.h>
+#include <zmk/keymap.h>
 
 // 由 toggle.c 维护的全局开关
 extern bool kp2_alt_active;
 
-// 最多允许同时按下的 &kp2 实例数（可自行调整）
-#define MAX_KP2_INSTANCES 16
-
+// 每个物理按键位置的状态（按 keymap 索引存储）
 struct kp2_state {
-    bool active;                 // 物理按键是否被按住
-    uint16_t original_code;      // 参数1：原始键码
-    uint16_t alt_code;           // 参数2：备用键码
-    uint16_t last_sent_code;     // 当前正发送给主机的键码（用于切换时释放）
-    struct kp2_state *next;      // 链表指针
+    bool active;
+    uint16_t original_code;
+    uint16_t alt_code;
+    uint16_t last_sent_code;
 };
 
-static struct kp2_state *kp2_active_head = NULL;
-static struct kp2_state kp2_states[MAX_KP2_INSTANCES];
-static int kp2_state_count = 0;
+// 如果 ZMK_KEYMAP_LEN 未定义，则使用一个安全值
+#ifndef ZMK_KEYMAP_LEN
+#define ZMK_KEYMAP_LEN 128
+#endif
+
+static struct kp2_state states[ZMK_KEYMAP_LEN];
 
 /**
- * @brief 根据当前开关状态，更新该实例发送的键码
+ * @brief 根据当前开关状态更新该位置的实际输出
  */
 static void kp2_update(struct kp2_state *state, uint32_t timestamp) {
     uint16_t want = kp2_alt_active ? state->alt_code : state->original_code;
@@ -36,77 +37,53 @@ static void kp2_update(struct kp2_state *state, uint32_t timestamp) {
 }
 
 /**
- * @brief 由 toggle 调用的接口：通知所有活跃的 &kp2 刷新输出
+ * @brief 由 toggle 调用：刷新所有正在按下的 &kp2 输出
  */
 void kp2_refresh_all(uint32_t timestamp) {
-    struct kp2_state *p = kp2_active_head;
-    while (p) {
-        if (p->active) {
-            kp2_update(p, timestamp);
+    for (int i = 0; i < ZMK_KEYMAP_LEN; i++) {
+        if (states[i].active) {
+            kp2_update(&states[i], timestamp);
         }
-        p = p->next;
     }
 }
 
+// 按下处理
 static int on_kp2_pressed(struct zmk_behavior_binding *binding,
                           struct zmk_behavior_binding_event event) {
-    if (kp2_state_count >= MAX_KP2_INSTANCES) return -ENOMEM;
+    uint32_t pos = event.position;
+    if (pos >= ZMK_KEYMAP_LEN) return -EINVAL;
 
-    struct kp2_state *state = &kp2_states[kp2_state_count++];
+    struct kp2_state *state = &states[pos];
     state->active = true;
     state->original_code = binding->param1;
     state->alt_code = binding->param2;
     state->last_sent_code = 0;
 
-    // 插入链表头
-    state->next = kp2_active_head;
-    kp2_active_head = state;
-
-    // 发送初始按键
     kp2_update(state, event.timestamp);
-
-    // 将实例指针保存到绑定点，释放时取出
-    zmk_behavior_set_binding_data(binding, state);
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
+// 释放处理
 static int on_kp2_released(struct zmk_behavior_binding *binding,
                            struct zmk_behavior_binding_event event) {
-    struct kp2_state *state = zmk_behavior_get_binding_data(binding);
-    if (!state) return -ENODEV;
+    uint32_t pos = event.position;
+    if (pos >= ZMK_KEYMAP_LEN) return -EINVAL;
 
+    struct kp2_state *state = &states[pos];
     state->active = false;
 
-    // 释放当前按键
     if (state->last_sent_code != 0) {
         raise_zmk_keycode_state_changed_from_encoded(state->last_sent_code, false,
                                                      event.timestamp);
     }
-
-    // 从链表中删除该节点
-    struct kp2_state **indirect = &kp2_active_head;
-    while (*indirect) {
-        if (*indirect == state) {
-            *indirect = state->next;
-            break;
-        }
-        indirect = &(*indirect)->next;
-    }
-
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
-static const struct zmk_behavior_behavior_slice kp2_slices[] = {
-        ZMK_BEHAVIOR_SLICE(ON_PRESS, on_kp2_pressed),
-        ZMK_BEHAVIOR_SLICE(ON_RELEASE, on_kp2_released),
+// 行为驱动 API（不再使用 slice）
+static const struct behavior_driver_api kp2_driver_api = {
+        .binding_pressed = on_kp2_pressed,
+        .binding_released = on_kp2_released,
+        .data_size = 0,   // 我们自己管理状态，不需要框架额外分配
 };
 
-static const struct zmk_behavior_behavior kp2_behavior = {
-        .name = "KP2",
-        .slices = kp2_slices,
-        .slices_count = ARRAY_SIZE(kp2_slices),
-        // 注意：这里存的是指针（指向静态数组中的结构体），而不是结构体本身
-        .data_size = sizeof(struct kp2_state *),
-};
-
-ZMK_BEHAVIOR_DEFINE(kp2, kp2_behavior);
+ZMK_BEHAVIOR_DEFINE(kp2, kp2_driver_api);
