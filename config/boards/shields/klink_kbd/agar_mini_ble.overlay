@@ -62,6 +62,11 @@ RC(2,0)     RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2
             #binding-cells = <0>;
             status = "okay";
         };
+        mv: mv {                              // 控制器：你按键绑定的就是它
+            compatible = "zmk,behavior-mv";
+            #binding-cells = <2>;
+            status = "okay";
+        };
         mva: mva {
             compatible = "zmk,behavior-input-two-axis";
             status = "okay";
