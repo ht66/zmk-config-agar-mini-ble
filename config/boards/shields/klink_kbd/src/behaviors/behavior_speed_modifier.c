@@ -3,6 +3,7 @@
 #include <zephyr/device.h>
 #include <zephyr/logging/log.h>
 #include <zmk/behavior.h>
+#include <dt-bindings/zmk/pointing.h>
 
 #include "behavior_dynamic_mouse_move.h"
 
