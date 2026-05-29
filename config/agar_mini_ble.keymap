@@ -99,8 +99,8 @@
 
         layer_4 {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans            &msc MOVE_Y(-10)  &trans           &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &msc MOVE_X(-10)  &msc MOVE_Y(10)   &msc MOVE_X(10)  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans            &msc MOVE_Y(10)   &trans           &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans        &msc MOVE_X(-10)  &msc MOVE_Y(-10)  &msc MOVE_X(10)  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans            &trans            &trans           &trans  &trans
         &trans  &trans          &trans          &lt 5 K_UNDO                                      &trans           &trans
             >;
@@ -108,8 +108,8 @@
 
         layer_5 {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans            &msc MOVE_Y(-20)  &trans           &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &msc MOVE_X(-20)  &msc MOVE_Y(20)   &msc MOVE_X(20)  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans            &msc MOVE_Y(20)   &trans           &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &msc MOVE_X(-20)  &msc MOVE_Y(-20)  &msc MOVE_X(20)  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans            &trans            &trans           &trans  &trans
         &trans  &trans          &trans          &trans                                      &trans           &trans
             >;
