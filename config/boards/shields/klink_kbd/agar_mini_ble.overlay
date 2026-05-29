@@ -1,6 +1,5 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
-#include <dt-bindings/zmk/pointing.h>
 #include "common.overlay"
 
 #define _RC(x, y)
@@ -71,8 +70,8 @@ RC(2,0)     RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2
         mva: mva {
             compatible = "zmk,behavior-input-two-axis";
             status = "okay";
-            x_input_code = <INPUT_REL_X>;
-            y_input_code = <INPUT_REL_Y>;
+            x_input_code = <0x00>;
+            y_input_code = <0x01>;
             trigger_period_ms = <12>;     // 发送周期，可调手感
             time_to_max_speed_ms = <0>;   // 无加速，直接用我们给的速度
             delay_ms = <0>;
