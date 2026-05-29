@@ -162,10 +162,10 @@
 
         layer_3 {
             bindings = <
-&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans           &trans       &scroll_up    &trans        &trans  &trans  &trans
-&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans           &mouse_left  &scroll_down  &mouse_right  &trans  &trans
-&trans  &trans  &trans    &trans         &trans   &trans  &trans           &trans       &trans        &trans        &trans  &trans
-        &trans  &trans                   &trans           &kp RIGHT_SHIFT                             &trans        &trans
+&trans  &trans  &trans    &kp PAGE_UP    &trans   &trans  &trans           &trans        &scroll_up    &trans         &trans  &trans  &trans
+&trans  &trans  &kp HOME  &kp PAGE_DOWN  &kp END  &trans  &trans           &scroll_left  &scroll_down  &scroll_right  &trans  &trans
+&trans  &trans  &trans    &trans         &trans   &trans  &trans           &trans        &trans        &trans         &trans  &trans
+        &trans  &trans                   &trans           &kp RIGHT_SHIFT                              &trans         &trans
             >;
         };
 
