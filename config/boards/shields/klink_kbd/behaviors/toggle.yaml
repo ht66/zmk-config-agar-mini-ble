@@ -1,0 +1,2 @@
+compatible: "zmk,behavior-toggle"
+description: "Toggle switch for kp2 behavior"
