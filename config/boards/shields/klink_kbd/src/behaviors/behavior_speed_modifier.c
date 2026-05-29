@@ -1,7 +1,6 @@
 #define DT_DRV_COMPAT zmk_behavior_speed_modifier
 
 #include <zephyr/device.h>
-#include <zephyr/drivers/behavior.h>
 #include <zephyr/logging/log.h>
 #include <zmk/behavior.h>
 

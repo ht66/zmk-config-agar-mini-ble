@@ -5,7 +5,6 @@
 #define DT_DRV_COMPAT zmk_behavior_dynamic_mouse_move
 
 #include <zephyr/device.h>
-#include <zephyr/drivers/behavior.h>
 #include <zephyr/input/input.h>
 #include <zephyr/logging/log.h>
 #include <zmk/behavior.h>
