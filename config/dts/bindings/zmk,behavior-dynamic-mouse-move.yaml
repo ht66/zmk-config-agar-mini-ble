@@ -15,4 +15,4 @@ properties:
     default: 1
   "#binding-cells":
     type: int
-    const: 0
+    const: 1
