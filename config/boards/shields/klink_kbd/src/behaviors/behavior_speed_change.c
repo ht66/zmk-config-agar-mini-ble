@@ -3,6 +3,7 @@
 #include <zephyr/device.h>
 #include <drivers/behavior.h>
 #include <zmk/behavior.h>
+#include <zephyr/sys/util.h>   // 提供 UTIL_LISTIFY
 #include "behavior_two_axis_move.h"
 
 #define MAX_TARGETS 4
@@ -41,13 +42,13 @@ static const struct behavior_driver_api api = {
         .binding_released = on_keymap_binding_released,
 };
 
-// 编译时填充目标设备数组的辅助宏
-#define TARGET_ENTRY(var) DEVICE_DT_GET(DT_PROP_ELEM_PHANDLE(var)),
+// 编译时生成目标条目初始化
+#define SPD_TARGET_ENTRY(n, i, _) DEVICE_DT_GET(DT_INST_PHANDLE_BY_IDX(n, targets, i)),
 
 #define SPD_INST(n)                                                                                \
     static const struct speed_switch_config spd_config_##n = {                                     \
         .targets = {                                                                               \
-            DT_INST_FOREACH_PROP_ELEM(n, targets, TARGET_ENTRY)                                    \
+            UTIL_LISTIFY(DT_INST_PROP_LEN(n, targets), SPD_TARGET_ENTRY, n)                        \
         },                                                                                         \
         .num_targets = DT_INST_PROP_LEN(n, targets),                                               \
     };                                                                                             \
