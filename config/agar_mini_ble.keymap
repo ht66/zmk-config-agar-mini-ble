@@ -162,28 +162,28 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &dmmv MOVE_SPEED(0, -800, 0, -300)    &mkp RCLK     &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &dmmv MOVE_SPEED(-1000, 0, -400, 0)  &dmmv MOVE_SPEED(0, 800, 0, 300)  &dmmv MOVE_SPEED(1000, 0, 400, 0)  &tog 3  &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &dmm MOVE_SPEED(0, -800, 0, -300)    &mkp RCLK     &trans  &trans  &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &dmm MOVE_SPEED(-1000, 0, -400, 0)  &dmm MOVE_SPEED(0, 800, 0, 300)  &dmm MOVE_SPEED(1000, 0, 400, 0)  &tog 3  &trans
 &trans  &trans  &trans     &trans    &trans     &trans  &trans         &trans       &trans       &trans        &trans  &trans
-        &trans  &trans               &mo 3              &speed_change                            &trans        &trans
+        &trans  &trans               &mo 3              &mspd                            &trans        &trans
             >;
         };
 
         layer_3 {
             bindings = <
-&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &dmmv MOVE_SPEED(0, -60, 0, -20)    &trans         &trans  &trans  &trans
-&trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &dmmv MOVE_SPEED(-60, 0, -20, 0)  &dmmv MOVE_SPEED(0, 60, 0, 20)  &dmmv MOVE_SPEED(60, 0, 20, 0)  &trans  &trans
+&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &dmm MOVE_SPEED(0, -60, 0, -20)    &trans         &trans  &trans  &trans
+&trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &dmm MOVE_SPEED(-60, 0, -20, 0)  &dmm MOVE_SPEED(0, 60, 0, 20)  &dmm MOVE_SPEED(60, 0, 20, 0)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &trans   &trans  &trans         &kp2 J HASH        &toggle        &trans         &trans  &trans
-        &trans        &trans                       &trans           &speed_change                              &trans         &trans
+        &trans        &trans                       &trans           &mspd                              &trans         &trans
             >;
         };
 
         layer_4 {
             bindings = <
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  &dmmv DMMV_BIND(0, -800, 0, -200)  &trans  &trans  &trans  &trans
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  &dmmv DMMV_BIND(-1000, 0, -300, 0)  &dmmv DMMV_BIND(0, 800, 0, 200)  &dmmv DMMV_BIND(1000, 0, 300, 0)  &speed_change  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  &dmm DMMV_BIND(0, -800, 0, -200)  &trans  &trans  &trans  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  &dmm DMMV_BIND(-1000, 0, -300, 0)  &dmm DMMV_BIND(0, 800, 0, 200)  &dmm DMMV_BIND(1000, 0, 300, 0)  &speed_change  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-        &trans        &trans                      &trans          &speed_change                  &trans  &trans
+        &trans        &trans                      &trans          &mspd                  &trans  &trans
             >;
         };
     };
