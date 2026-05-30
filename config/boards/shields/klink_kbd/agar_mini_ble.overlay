@@ -131,12 +131,12 @@ RC(2,0)     RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2
         device = <&dmmv>;
     };
 
-    dmm_input_listener: dmm_input_listener {
+    mouse_move_input_listener: dmm_input_listener {
         compatible = "zmk,input-listener";
-        device = <&dmm>;
+        device = <&mouse_move>;
     };
-    dsm_input_listener: dsm_input_listener {
+    scroll_move_input_listener: dsm_input_listener {
         compatible = "zmk,input-listener";
-        device = <&dsm>;
+        device = <&scroll_move>;
     };
 };
