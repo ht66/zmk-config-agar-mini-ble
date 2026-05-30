@@ -5,22 +5,15 @@
 #include <zephyr/input/input.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/sys/util.h>
-
 #include <zmk/behavior.h>
-#include <dt-bindings/zmk/pointing.h>
-
-#if IS_ENABLED(CONFIG_ZMK_POINTING_SMOOTH_SCROLLING)
-#include <zmk/pointing/resolution_multipliers.h>
-#endif
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
-// ---- 复用原来的二维移动状态和工具函数 ----
+// ===== 基础工具（与 behavior_input_two_axis.c 相同） =====
 struct vector2d { float x; float y; };
 struct movement_state_1d { float remainder; int16_t speed; int64_t start_time; };
 struct movement_state_2d { struct movement_state_1d x; struct movement_state_1d y; };
 
-// ===== 提前定义配置结构体，避免后续函数使用时类型不完整 =====
 struct behavior_dynamic_mouse_move_config {
     int16_t x_code;
     int16_t y_code;
@@ -28,8 +21,6 @@ struct behavior_dynamic_mouse_move_config {
     uint16_t time_to_max_speed_ms;
     uint8_t trigger_period_ms;
     uint8_t acceleration_exponent;
-    int16_t speed1;
-    int16_t speed2;
 };
 
 #if CONFIG_MINIMAL_LIBC
@@ -44,25 +35,19 @@ static float powf(float base, float exponent) {
 
 static int64_t ticks_since_start(int64_t start, int64_t now, int64_t delay) {
     if (start == 0) return 0;
-    int64_t move_duration = now - (start + delay);
-    return (move_duration < 0) ? 0 : move_duration;
+    int64_t d = now - (start + delay);
+    return d < 0 ? 0 : d;
 }
 
-static inline uint8_t get_acceleration_exponent(const struct behavior_dynamic_mouse_move_config *config,
-                                                uint16_t code) {
-    return config->acceleration_exponent;
-}
-
-static float speed(const struct behavior_dynamic_mouse_move_config *config, uint16_t code,
-                   float max_speed, int64_t duration_ticks) {
-    uint8_t accel_exp = get_acceleration_exponent(config, code);
-    if ((1000 * duration_ticks / CONFIG_SYS_CLOCK_TICKS_PER_SEC) > config->time_to_max_speed_ms ||
-        config->time_to_max_speed_ms == 0 || accel_exp == 0)
+static float speed(const struct behavior_dynamic_mouse_move_config *cfg, float max_speed,
+                   int64_t duration_ticks) {
+    if (cfg->time_to_max_speed_ms == 0 || cfg->acceleration_exponent == 0 ||
+        (1000 * duration_ticks / CONFIG_SYS_CLOCK_TICKS_PER_SEC) > cfg->time_to_max_speed_ms)
         return max_speed;
     if (duration_ticks == 0) return 0;
-    float time_fraction = (float)(1000 * duration_ticks / CONFIG_SYS_CLOCK_TICKS_PER_SEC) /
-                          config->time_to_max_speed_ms;
-    return max_speed * powf(time_fraction, accel_exp);
+    float frac = (float)(1000 * duration_ticks / CONFIG_SYS_CLOCK_TICKS_PER_SEC) /
+                 cfg->time_to_max_speed_ms;
+    return max_speed * powf(frac, cfg->acceleration_exponent);
 }
 
 static void track_remainder(float *move, float *remainder) {
@@ -71,38 +56,35 @@ static void track_remainder(float *move, float *remainder) {
     *move = (int)new_move;
 }
 
-static float update_movement_1d(const struct behavior_dynamic_mouse_move_config *config,
-                                uint16_t code, struct movement_state_1d *state, int64_t now) {
-    float move = 0;
-    if (state->speed == 0) { state->remainder = 0; return move; }
-    int64_t move_duration = ticks_since_start(state->start_time, now, config->delay_ms);
-    move = (move_duration > 0) ? speed(config, code, state->speed, move_duration) *
-                                 config->trigger_period_ms / 1000 : 0;
-    track_remainder(&move, &state->remainder);
+static float update_movement_1d(const struct behavior_dynamic_mouse_move_config *cfg,
+                                struct movement_state_1d *st, int64_t now) {
+    if (st->speed == 0) { st->remainder = 0; return 0; }
+    int64_t dur = ticks_since_start(st->start_time, now, cfg->delay_ms);
+    float move = (dur > 0) ? speed(cfg, st->speed, dur) * cfg->trigger_period_ms / 1000 : 0;
+    track_remainder(&move, &st->remainder);
     return move;
 }
 
-static struct vector2d update_movement_2d(const struct behavior_dynamic_mouse_move_config *config,
-                                          struct movement_state_2d *state, int64_t now) {
-    struct vector2d move = {
-            .x = update_movement_1d(config, config->x_code, &state->x, now),
-            .y = update_movement_1d(config, config->y_code, &state->y, now),
+static struct vector2d update_movement_2d(const struct behavior_dynamic_mouse_move_config *cfg,
+                                          struct movement_state_2d *st, int64_t now) {
+    return (struct vector2d){
+            .x = update_movement_1d(cfg, &st->x, now),
+            .y = update_movement_1d(cfg, &st->y, now),
     };
-    return move;
 }
 
-static bool is_non_zero_1d(int16_t speed) { return speed != 0; }
-static bool is_non_zero_2d(struct movement_state_2d *s) {
-    return is_non_zero_1d(s->x.speed) || is_non_zero_1d(s->y.speed);
+static bool is_non_zero_2d(struct movement_state_2d *st) {
+    return st->x.speed != 0 || st->y.speed != 0;
 }
-// ----------------------------------------------------------------
 
-// 驱动私有数据
+// ===== 双速状态（极简设计） =====
 struct behavior_dynamic_mouse_move_data {
     struct k_work_delayable tick_work;
     const struct device *dev;
     struct movement_state_2d state;
-    uint8_t active_speed;
+    int16_t quick_sum_x, quick_sum_y;   // 所有按下键的 param1 贡献总和
+    int16_t slow_sum_x, slow_sum_y;     // 所有按下键的 param2 贡献总和
+    uint8_t active_slot;                // 0：快速槽，1：慢速槽
 };
 
 static void adjust_speed(const struct device *dev, int16_t dx, int16_t dy) {
@@ -111,13 +93,11 @@ static void adjust_speed(const struct device *dev, int16_t dx, int16_t dy) {
     data->state.y.speed += dy;
 }
 
-static void set_start_times_1d(struct movement_state_1d *s) {
-    if (s->speed != 0 && s->start_time == 0) s->start_time = k_uptime_ticks();
-    else if (s->speed == 0) s->start_time = 0;
-}
-static void set_start_times(struct movement_state_2d *s) {
-    set_start_times_1d(&s->x);
-    set_start_times_1d(&s->y);
+static void set_start_times(struct movement_state_2d *st) {
+    if (st->x.speed != 0 && st->x.start_time == 0) st->x.start_time = k_uptime_ticks();
+    else if (st->x.speed == 0) st->x.start_time = 0;
+    if (st->y.speed != 0 && st->y.start_time == 0) st->y.start_time = k_uptime_ticks();
+    else if (st->y.speed == 0) st->y.start_time = 0;
 }
 
 static void update_work_scheduling(const struct device *dev) {
@@ -132,31 +112,10 @@ static void update_work_scheduling(const struct device *dev) {
     }
 }
 
-void behavior_dmmv_set_active_speed(const struct device *dev, uint8_t speed_idx) {
-    struct behavior_dynamic_mouse_move_data *data = dev->data;
-    const struct behavior_dynamic_mouse_move_config *cfg = dev->config;
-    if (data->active_speed == speed_idx) return;
-
-    int16_t old_val = (data->active_speed == 1) ? cfg->speed1 : cfg->speed2;
-    int16_t new_val = (speed_idx == 1) ? cfg->speed1 : cfg->speed2;
-
-    if (data->state.x.speed != 0) {
-        int16_t dir = (data->state.x.speed > 0) ? 1 : -1;
-        int16_t delta = dir * new_val - data->state.x.speed;
-        adjust_speed(dev, delta, 0);
-    }
-    if (data->state.y.speed != 0) {
-        int16_t dir = (data->state.y.speed > 0) ? 1 : -1;
-        int16_t delta = dir * new_val - data->state.y.speed;
-        adjust_speed(dev, 0, delta);
-    }
-    data->active_speed = speed_idx;
-}
-
 static void tick_work_cb(struct k_work *work) {
-    struct k_work_delayable *d_work = k_work_delayable_from_work(work);
+    struct k_work_delayable *dwork = k_work_delayable_from_work(work);
     struct behavior_dynamic_mouse_move_data *data =
-    CONTAINER_OF(d_work, struct behavior_dynamic_mouse_move_data, tick_work);
+    CONTAINER_OF(dwork, struct behavior_dynamic_mouse_move_data, tick_work);
     const struct device *dev = data->dev;
     const struct behavior_dynamic_mouse_move_config *cfg = dev->config;
 
@@ -168,20 +127,41 @@ static void tick_work_cb(struct k_work *work) {
         k_work_schedule(&data->tick_work, K_MSEC(cfg->trigger_period_ms));
 }
 
+// 供 speed_change 调用的接口
+void behavior_dmmv_set_active_slot(const struct device *dev, uint8_t slot) {
+    struct behavior_dynamic_mouse_move_data *data = dev->data;
+    if (data->active_slot == slot) return;
+
+    int16_t old_x = (data->active_slot == 0) ? data->quick_sum_x : data->slow_sum_x;
+    int16_t old_y = (data->active_slot == 0) ? data->quick_sum_y : data->slow_sum_y;
+    int16_t new_x = (slot == 0) ? data->quick_sum_x : data->slow_sum_x;
+    int16_t new_y = (slot == 0) ? data->quick_sum_y : data->slow_sum_y;
+
+    data->active_slot = slot;
+    adjust_speed(dev, new_x - old_x, new_y - old_y);
+    update_work_scheduling(dev);
+}
+
+// 按键处理
+static inline int16_t param_x(uint32_t p) { return (int16_t)(p >> 16); }
+static inline int16_t param_y(uint32_t p) { return (int16_t)(p & 0xFFFF); }
+
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     struct behavior_dynamic_mouse_move_data *data = dev->data;
-    const struct behavior_dynamic_mouse_move_config *cfg = dev->config;
 
-    int16_t dir_x = (int16_t)(binding->param1 >> 16);
-    int16_t dir_y = (int16_t)(binding->param1 & 0xFFFF);
+    int16_t x1 = param_x(binding->param1), y1 = param_y(binding->param1);
+    int16_t x2 = param_x(binding->param2), y2 = param_y(binding->param2);
 
-    int16_t speed_val = (data->active_speed == 1) ? cfg->speed1 : cfg->speed2;
-    int16_t dx = (dir_x > 0) ? speed_val : (dir_x < 0) ? -speed_val : 0;
-    int16_t dy = (dir_y > 0) ? speed_val : (dir_y < 0) ? -speed_val : 0;
+    // 累加总贡献
+    data->quick_sum_x += x1; data->quick_sum_y += y1;
+    data->slow_sum_x  += x2; data->slow_sum_y  += y2;
 
-    adjust_speed(dev, dx, dy);
+    // 应用当前槽的速度增量
+    int16_t cx = (data->active_slot == 0) ? x1 : x2;
+    int16_t cy = (data->active_slot == 0) ? y1 : y2;
+    adjust_speed(dev, cx, cy);
     update_work_scheduling(dev);
     return 0;
 }
@@ -190,16 +170,18 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     struct behavior_dynamic_mouse_move_data *data = dev->data;
-    const struct behavior_dynamic_mouse_move_config *cfg = dev->config;
 
-    int16_t dir_x = (int16_t)(binding->param1 >> 16);
-    int16_t dir_y = (int16_t)(binding->param1 & 0xFFFF);
+    int16_t x1 = param_x(binding->param1), y1 = param_y(binding->param1);
+    int16_t x2 = param_x(binding->param2), y2 = param_y(binding->param2);
 
-    int16_t speed_val = (data->active_speed == 1) ? cfg->speed1 : cfg->speed2;
-    int16_t dx = (dir_x > 0) ? -speed_val : (dir_x < 0) ? speed_val : 0;
-    int16_t dy = (dir_y > 0) ? -speed_val : (dir_y < 0) ? speed_val : 0;
+    // 从总和扣除
+    data->quick_sum_x -= x1; data->quick_sum_y -= y1;
+    data->slow_sum_x  -= x2; data->slow_sum_y  -= y2;
 
-    adjust_speed(dev, dx, dy);
+    // 减去当前槽的速度贡献
+    int16_t cx = (data->active_slot == 0) ? x1 : x2;
+    int16_t cy = (data->active_slot == 0) ? y1 : y2;
+    adjust_speed(dev, -cx, -cy);
     update_work_scheduling(dev);
     return 0;
 }
@@ -207,18 +189,20 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
 static int behavior_dynamic_mouse_move_init(const struct device *dev) {
     struct behavior_dynamic_mouse_move_data *data = dev->data;
     data->dev = dev;
-    data->active_speed = 1;
+    data->active_slot = 0;
+    data->quick_sum_x = data->quick_sum_y = 0;
+    data->slow_sum_x  = data->slow_sum_y  = 0;
     k_work_init_delayable(&data->tick_work, tick_work_cb);
     return 0;
 }
 
-static const struct behavior_driver_api dynamic_mouse_move_api = {
+static const struct behavior_driver_api api = {
         .binding_pressed = on_keymap_binding_pressed,
         .binding_released = on_keymap_binding_released,
 };
 
 #define DMMV_INST(n)                                                                               \
-    static struct behavior_dynamic_mouse_move_data dmmv_data_##n = { .active_speed = 1 };         \
+    static struct behavior_dynamic_mouse_move_data dmmv_data_##n;                                  \
     static const struct behavior_dynamic_mouse_move_config dmmv_config_##n = {                     \
         .x_code = DT_INST_PROP(n, x_input_code),                                                   \
         .y_code = DT_INST_PROP(n, y_input_code),                                                   \
@@ -226,11 +210,9 @@ static const struct behavior_driver_api dynamic_mouse_move_api = {
         .delay_ms = DT_INST_PROP_OR(n, delay_ms, 0),                                               \
         .time_to_max_speed_ms = DT_INST_PROP(n, time_to_max_speed_ms),                             \
         .acceleration_exponent = DT_INST_PROP_OR(n, acceleration_exponent, 1),                     \
-        .speed1 = DT_INST_PROP(n, speed1),                                                         \
-        .speed2 = DT_INST_PROP(n, speed2),                                                         \
     };                                                                                             \
     BEHAVIOR_DT_INST_DEFINE(n, behavior_dynamic_mouse_move_init, NULL, &dmmv_data_##n,            \
                             &dmmv_config_##n, POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,    \
-                            &dynamic_mouse_move_api);
+                            &api);
 
 DT_INST_FOREACH_STATUS_OKAY(DMMV_INST)

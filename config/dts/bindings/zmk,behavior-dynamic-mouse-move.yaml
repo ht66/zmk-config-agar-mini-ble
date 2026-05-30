@@ -5,8 +5,6 @@ description: Dynamic dual-speed mouse movement behavior
 
 compatible: "zmk,behavior-dynamic-mouse-move"
 
-include: one_param.yaml
-
 properties:
   x-input-code:
     type: int
@@ -25,11 +23,7 @@ properties:
   acceleration-exponent:
     type: int
     default: 1
-  speed1:
-    type: int
-    required: true
-    description: Base speed for normal (slow) mode
-  speed2:
-    type: int
-    required: true
-    description: Base speed for fast mode
+
+binding-cells:
+  - param1
+  - param2

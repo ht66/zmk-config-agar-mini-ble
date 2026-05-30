@@ -1,7 +1,7 @@
 # Copyright (c) 2025 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
-description: Toggle speed of a dynamic mouse move behavior
+description: Toggle speed slot for dynamic mouse move
 
 compatible: "zmk,behavior-speed-change"
 
@@ -11,4 +11,3 @@ properties:
   target:
     type: phandle
     required: true
-    description: Reference to the dynamic mouse move device to control
