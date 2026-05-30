@@ -18,6 +18,10 @@ properties:
   acceleration-exponent:
     type: int
     default: 1
+  "#binding-cells":
+    type: int
+    required: true
+    const: 2
 binding-cells:
   - param1
   - param2

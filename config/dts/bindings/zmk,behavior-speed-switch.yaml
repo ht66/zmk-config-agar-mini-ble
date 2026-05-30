@@ -1,7 +1,10 @@
 description: speed switch
 compatible: "zmk,behavior-speed-switch"
-include: base.yaml
 properties:
   targets:
     type: phandle-array
     required: true
+  "#binding-cells":
+    type: int
+    required: true
+    const: 0
