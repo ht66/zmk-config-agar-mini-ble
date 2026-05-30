@@ -1,9 +1,6 @@
 description: speed switch
 compatible: "zmk,behavior-speed-switch"
 properties:
-  targets:
-    type: phandle-array
-    required: true
   "#binding-cells":
     type: int
     required: true
