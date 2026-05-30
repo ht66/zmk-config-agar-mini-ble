@@ -13,7 +13,7 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct behavior_speed_switch_config *cfg = dev->config;
-    if (cfg->target) behavior_dmmv_set_active_slot(cfg->target, 1);
+    if (cfg->target) behavior_dmm_set_active_slot(cfg->target, 1);
     return 0;
 }
 
@@ -21,7 +21,7 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct behavior_speed_switch_config *cfg = dev->config;
-    if (cfg->target) behavior_dmmv_set_active_slot(cfg->target, 0);
+    if (cfg->target) behavior_dmm_set_active_slot(cfg->target, 0);
     return 0;
 }
 
