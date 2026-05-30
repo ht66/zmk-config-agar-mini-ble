@@ -1,5 +1,5 @@
-compatible: "zmk,behavior-dynamic-mouse-move"
-description: "zmk,behavior-dynamic-mouse-move"
+compatible: "zmk,behavior-dynamic-move"
+description: "zmk,behavior-dynamic-move"
 include: two_param.yaml
 properties:
   x-input-code:
