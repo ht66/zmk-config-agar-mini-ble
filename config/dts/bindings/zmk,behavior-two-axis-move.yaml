@@ -1,4 +1,5 @@
 compatible: "zmk,behavior-two-axis-move"
+description: "zmk,behavior-two-axis-move"
 properties:
   x-input-code:
     type: int
