@@ -1,5 +1,12 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: Dynamic dual-speed mouse movement behavior
+
 compatible: "zmk,behavior-dynamic-mouse-move"
-description: "Mouse movement with runtime adjustable speed factor"
+
+include: one_param.yaml
+
 properties:
   x-input-code:
     type: int
@@ -7,15 +14,22 @@ properties:
   y-input-code:
     type: int
     required: true
+  trigger-period-ms:
+    type: int
+    default: 16
+  delay-ms:
+    type: int
   time-to-max-speed-ms:
     type: int
-    default: 300
+    required: true
   acceleration-exponent:
     type: int
     default: 1
-  "#binding-cells":
+  speed1:
     type: int
-    const: 1
-
-binding-cells:
-  - param1
+    required: true
+    description: Base speed for normal (slow) mode
+  speed2:
+    type: int
+    required: true
+    description: Base speed for fast mode

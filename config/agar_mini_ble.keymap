@@ -10,10 +10,7 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
-#define MV_U(fast, slow)    &mv ((0 << 8) | fast) slow
-#define MV_D(fast, slow)    &mv ((1 << 8) | fast) slow
-#define MV_L(fast, slow)    &mv ((2 << 8) | fast) slow
-#define MV_R(fast, slow)    &mv ((3 << 8) | fast) slow
+#define DMOVE(x, y) ((x) << 16 | ((y) & 0xFFFF))
 
 / {
     combos {
@@ -176,10 +173,10 @@
 
         layer_4 {
             bindings = <
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  &dmmv MOVE_Y(-10)  &trans  &trans  &trans  &trans
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  &dmmv MOVE_X(-10)  &dmmv MOVE_Y(10)  &dmmv MOVE_X(10)  &trans  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  &dmmv DMOVE(0, -1)  &trans  &trans  &trans  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  &dmmv DMOVE(-1, 0)  &dmmv DMOVE(0, 1)  &dmmv DMOVE(1, 1)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-        &trans        &trans                      &trans          &toggle                  &trans  &trans
+        &trans        &trans                      &trans          &speed_change                  &trans  &trans
             >;
         };
     };
