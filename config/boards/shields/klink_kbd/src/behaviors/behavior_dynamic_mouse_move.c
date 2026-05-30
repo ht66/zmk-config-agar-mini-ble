@@ -15,10 +15,22 @@
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
-// ---- 复用原来的二维移动状态和工具函数（直接拷贝自 behavior_input_two_axis.c） ----
+// ---- 复用原来的二维移动状态和工具函数 ----
 struct vector2d { float x; float y; };
 struct movement_state_1d { float remainder; int16_t speed; int64_t start_time; };
 struct movement_state_2d { struct movement_state_1d x; struct movement_state_1d y; };
+
+// ===== 提前定义配置结构体，避免后续函数使用时类型不完整 =====
+struct behavior_dynamic_mouse_move_config {
+    int16_t x_code;
+    int16_t y_code;
+    uint16_t delay_ms;
+    uint16_t time_to_max_speed_ms;
+    uint8_t trigger_period_ms;
+    uint8_t acceleration_exponent;
+    int16_t speed1;
+    int16_t speed2;
+};
 
 #if CONFIG_MINIMAL_LIBC
 static float powf(float base, float exponent) {
@@ -85,23 +97,12 @@ static bool is_non_zero_2d(struct movement_state_2d *s) {
 }
 // ----------------------------------------------------------------
 
-// 驱动自定义数据结构
+// 驱动私有数据
 struct behavior_dynamic_mouse_move_data {
     struct k_work_delayable tick_work;
     const struct device *dev;
     struct movement_state_2d state;
-    uint8_t active_speed; // 1 或 2
-};
-
-struct behavior_dynamic_mouse_move_config {
-    int16_t x_code;
-    int16_t y_code;
-    uint16_t delay_ms;
-    uint16_t time_to_max_speed_ms;
-    uint8_t trigger_period_ms;
-    uint8_t acceleration_exponent;
-    int16_t speed1;
-    int16_t speed2;
+    uint8_t active_speed;
 };
 
 static void adjust_speed(const struct device *dev, int16_t dx, int16_t dy) {
@@ -131,7 +132,6 @@ static void update_work_scheduling(const struct device *dev) {
     }
 }
 
-// 公开的速度切换接口
 void behavior_dmmv_set_active_speed(const struct device *dev, uint8_t speed_idx) {
     struct behavior_dynamic_mouse_move_data *data = dev->data;
     const struct behavior_dynamic_mouse_move_config *cfg = dev->config;
@@ -140,7 +140,6 @@ void behavior_dmmv_set_active_speed(const struct device *dev, uint8_t speed_idx)
     int16_t old_val = (data->active_speed == 1) ? cfg->speed1 : cfg->speed2;
     int16_t new_val = (speed_idx == 1) ? cfg->speed1 : cfg->speed2;
 
-    // 无缝切换：只改变当前移动轴的速度值，保持方向不变
     if (data->state.x.speed != 0) {
         int16_t dir = (data->state.x.speed > 0) ? 1 : -1;
         int16_t delta = dir * new_val - data->state.x.speed;
@@ -154,7 +153,6 @@ void behavior_dmmv_set_active_speed(const struct device *dev, uint8_t speed_idx)
     data->active_speed = speed_idx;
 }
 
-// 定时器回调
 static void tick_work_cb(struct k_work *work) {
     struct k_work_delayable *d_work = k_work_delayable_from_work(work);
     struct behavior_dynamic_mouse_move_data *data =
@@ -170,14 +168,12 @@ static void tick_work_cb(struct k_work *work) {
         k_work_schedule(&data->tick_work, K_MSEC(cfg->trigger_period_ms));
 }
 
-// 按下/释放方向键
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     struct behavior_dynamic_mouse_move_data *data = dev->data;
     const struct behavior_dynamic_mouse_move_config *cfg = dev->config;
 
-    // 从 param1 取出方向（沿用 MOVE 宏的 16+16 编码，但只关心符号）
     int16_t dir_x = (int16_t)(binding->param1 >> 16);
     int16_t dir_y = (int16_t)(binding->param1 & 0xFFFF);
 
@@ -211,7 +207,7 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
 static int behavior_dynamic_mouse_move_init(const struct device *dev) {
     struct behavior_dynamic_mouse_move_data *data = dev->data;
     data->dev = dev;
-    data->active_speed = 1; // 默认慢速
+    data->active_speed = 1;
     k_work_init_delayable(&data->tick_work, tick_work_cb);
     return 0;
 }
