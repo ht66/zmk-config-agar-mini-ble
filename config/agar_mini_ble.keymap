@@ -39,12 +39,6 @@
             key-positions = <40 24>;
             timeout-ms = <100>;
         };
-
-        tolayer4 {
-            bindings = <&to 4>;
-            key-positions = <38 41>;
-            timeout-ms = <100>;
-        };
     };
 
     behaviors {
@@ -57,78 +51,6 @@
 
             #binding-cells = <0>;
             mods = <(MOD_LSFT)>;
-        };
-
-        mouse_up: mouse_up {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MOUSE_UP";
-            bindings = <&mmv MOVE_Y(-300)>, <&mmv MOVE_Y(-600)>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_RALT)>;
-        };
-
-        mouse_down: mouse_down {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MOUSE_DOWN";
-            bindings = <&mmv MOVE_Y(300)>, <&mmv MOVE_Y(600)>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_RALT)>;
-        };
-
-        mouse_left: mouse_left {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MOUSE_LEFT";
-            bindings = <&mmv MOVE_X(-300)>, <&mmv MOVE_X(-600)>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_RALT)>;
-        };
-
-        mouse_right: mouse_right {
-            compatible = "zmk,behavior-mod-morph";
-            label = "MOUSE_RIGHT";
-            bindings = <&mmv MOVE_X(300)>, <&mmv MOVE_X(600)>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_RALT)>;
-        };
-
-        scroll_up: scroll_up {
-            compatible = "zmk,behavior-mod-morph";
-            label = "SCROLL_UP";
-            bindings = <&msc MOVE_Y(10)>, <&msc MOVE_Y(20)>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_RALT)>;
-        };
-
-        scroll_down: scroll_down {
-            compatible = "zmk,behavior-mod-morph";
-            label = "SCROLL_DOWN";
-            bindings = <&msc MOVE_Y(-10)>, <&msc MOVE_Y(-20)>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_RALT)>;
-        };
-
-        scroll_left: scroll_left {
-            compatible = "zmk,behavior-mod-morph";
-            label = "SCROLL_LEFT";
-            bindings = <&msc MOVE_X(-10)>, <&msc MOVE_X(-20)>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_RALT)>;
-        };
-
-        scroll_right: scroll_right {
-            compatible = "zmk,behavior-mod-morph";
-            label = "SCROLL_RIGHT";
-            bindings = <&msc MOVE_X(10)>, <&msc MOVE_X(20)>;
-
-            #binding-cells = <0>;
-            mods = <(MOD_RALT)>;
         };
     };
 
