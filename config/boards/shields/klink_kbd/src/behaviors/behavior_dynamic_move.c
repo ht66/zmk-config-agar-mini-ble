@@ -127,21 +127,6 @@ static void tick_work_cb(struct k_work *work) {
         k_work_schedule(&data->tick_work, K_MSEC(cfg->trigger_period_ms));
 }
 
-// 供 speed_change 调用的接口
-void behavior_dmmv_set_active_slot(const struct device *dev, uint8_t slot) {
-    struct behavior_dynamic_move_data *data = dev->data;
-    if (data->active_slot == slot) return;
-
-    int16_t old_x = (data->active_slot == 0) ? data->quick_sum_x : data->slow_sum_x;
-    int16_t old_y = (data->active_slot == 0) ? data->quick_sum_y : data->slow_sum_y;
-    int16_t new_x = (slot == 0) ? data->quick_sum_x : data->slow_sum_x;
-    int16_t new_y = (slot == 0) ? data->quick_sum_y : data->slow_sum_y;
-
-    data->active_slot = slot;
-    adjust_speed(dev, new_x - old_x, new_y - old_y);
-    update_work_scheduling(dev);
-}
-
 // 按键处理
 static inline int16_t param_x(uint32_t p) { return (int16_t)(p >> 16); }
 static inline int16_t param_y(uint32_t p) { return (int16_t)(p & 0xFFFF); }
