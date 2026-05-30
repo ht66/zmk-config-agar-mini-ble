@@ -19,7 +19,7 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct speed_switch_config *cfg = dev->config;
-    set_target(cfg, 1);
+    set_target(cfg, 1); // 慢速
     return 0;
 }
 
@@ -27,7 +27,7 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct speed_switch_config *cfg = dev->config;
-    set_target(cfg, 0);
+    set_target(cfg, 0); // 快速
     return 0;
 }
 
