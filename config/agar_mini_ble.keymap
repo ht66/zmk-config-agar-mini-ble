@@ -171,10 +171,10 @@
 
         layer_3 {
             bindings = <
-&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &dmm MOVE_SPEED(0, -60, 0, -20)    &trans         &trans  &trans  &trans
-&trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &dmm MOVE_SPEED(-60, 0, -20, 0)  &dmm MOVE_SPEED(0, 60, 0, 20)  &dmm MOVE_SPEED(60, 0, 20, 0)  &trans  &trans
+&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &dsm MOVE_SPEED(0, -60, 0, -20)    &trans         &trans  &trans  &trans
+&trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &dsm MOVE_SPEED(-60, 0, -20, 0)  &dsm MOVE_SPEED(0, 60, 0, 20)  &dsm MOVE_SPEED(60, 0, 20, 0)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &trans   &trans  &trans         &kp2 J HASH        &toggle        &trans         &trans  &trans
-        &trans        &trans                       &trans           &mspd                              &trans         &trans
+        &trans        &trans                       &trans           &sspd                              &trans         &trans
             >;
         };
 
