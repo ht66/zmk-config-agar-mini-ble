@@ -23,34 +23,31 @@
         bootloader {
             bindings = <&bootloader>;
             key-positions = <0 37 42>;
-            timeout-ms = <2000>;
+            timeout-ms = <100>;
         };
 
         tolayer0 {
             bindings = <&to 0>;
             key-positions = <39 40>;
-            timeout-ms = <500>;
-            require-prior-idle-ms = <100>;
+            timeout-ms = <100>;
         };
 
         tolayer1 {
             bindings = <&to 1>;
             key-positions = <39 13>;
-            timeout-ms = <500>;
-            require-prior-idle-ms = <100>;
+            timeout-ms = <100>;
         };
 
         tolayer2 {
             bindings = <&to 2>;
             key-positions = <40 24>;
-            timeout-ms = <500>;
-            require-prior-idle-ms = <100>;
+            timeout-ms = <100>;
         };
 
         tolayer4 {
             bindings = <&to 4>;
             key-positions = <38 41>;
-            timeout-ms = <500>;
+            timeout-ms = <100>;
         };
     };
 
