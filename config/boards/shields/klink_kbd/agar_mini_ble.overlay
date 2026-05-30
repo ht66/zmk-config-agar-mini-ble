@@ -95,7 +95,7 @@ RC(2,0)     RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2
         };
 
         mousemove: mouse_move {
-            compatible = "zmk,behavior-two-axis-move";
+            compatible = "zmk,behavior-dynamic-mouse-move";
             #binding-cells = <2>;
             x-input-code = <INPUT_REL_X>;
             y-input-code = <INPUT_REL_Y>;
