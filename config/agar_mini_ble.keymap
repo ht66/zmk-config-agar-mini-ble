@@ -11,7 +11,7 @@
 #include <dt-bindings/zmk/pointing.h>
 
 // 将 X, Y 打包为 32 位 param
-#define MOVE_XY(x, y)   (((int16_t)(x) << 16) | ((int16_t)(y) & 0xFFFF))
+#define MOVE_XY(x, y)   (((x) << 16) | ((y) & 0xFFFF))
 
 // dmmv 需要两个参数，每个都是 MOVE_XY 格式，因此可以定义便捷宏：
 #define DMMV_BIND(x1, y1, x2, y2)   MOVE_XY(x1, y1), MOVE_XY(x2, y2)
