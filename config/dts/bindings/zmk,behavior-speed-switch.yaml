@@ -1,9 +1,6 @@
-# Copyright (c) 2025 The ZMK Contributors
-# SPDX-License-Identifier: MIT
+description: "zmk,behavior-speed-switch"
 
-description: Toggle speed slot for dynamic mouse move
-
-compatible: "zmk,behavior-speed-change"
+compatible: "zmk,behavior-speed-switch"
 
 include: base.yaml
 
