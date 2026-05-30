@@ -162,8 +162,8 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &mouse_move MOVE_SPEED(0, -800, 0, -300)    &mkp RCLK     &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &mouse_move MOVE_SPEED(-1000, 0, -400, 0)  &mouse_move MOVE_SPEED(0, 800, 0, 300)  &mouse_move MOVE_SPEED(1000, 0, 400, 0)  &tog 3  &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &mouse_move DMMV_BIND(0, -800, 0, -300)    &mkp RCLK     &trans  &trans  &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &mouse_move DMMV_BIND(-1000, 0, -400, 0)  &mouse_move DMMV_BIND(0, 800, 0, 300)  &mouse_move DMMV_BIND(1000, 0, 400, 0)  &tog 3  &trans
 &trans  &trans  &trans     &trans    &trans     &trans  &trans         &trans       &trans       &trans        &trans  &trans
         &trans  &trans               &mo 3              &mouse_speed_switch                            &trans        &trans
             >;
