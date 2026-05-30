@@ -127,7 +127,7 @@ static void tick_work_cb(struct k_work *work) {
         k_work_schedule(&data->tick_work, K_MSEC(cfg->trigger_period_ms));
 }
 
-void behavior_dmm_set_active_slot(const struct device *dev, uint8_t slot) {
+void behavior_dm_set_active_slot(const struct device *dev, uint8_t slot) {
     struct behavior_dynamic_move_data *data = dev->data;
     if (data->active_slot == slot) return;
 
@@ -200,9 +200,9 @@ static const struct behavior_driver_api api = {
         .binding_released = on_keymap_binding_released,
 };
 
-#define DMMV_INST(n)                                                                               \
-    static struct behavior_dynamic_move_data dmmv_data_##n;                                  \
-    static const struct behavior_dynamic_move_config dmmv_config_##n = {                     \
+#define DM_INST(n)                                                                               \
+    static struct behavior_dynamic_move_data dm_data_##n;                                  \
+    static const struct behavior_dynamic_move_config dm_config_##n = {                     \
         .x_code = DT_INST_PROP(n, x_input_code),                                                   \
         .y_code = DT_INST_PROP(n, y_input_code),                                                   \
         .trigger_period_ms = DT_INST_PROP(n, trigger_period_ms),                                   \
@@ -210,8 +210,8 @@ static const struct behavior_driver_api api = {
         .time_to_max_speed_ms = DT_INST_PROP(n, time_to_max_speed_ms),                             \
         .acceleration_exponent = DT_INST_PROP_OR(n, acceleration_exponent, 1),                     \
     };                                                                                             \
-    BEHAVIOR_DT_INST_DEFINE(n, behavior_dynamic_move_init, NULL, &dmmv_data_##n,            \
-                            &dmmv_config_##n, POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,    \
+    BEHAVIOR_DT_INST_DEFINE(n, behavior_dynamic_move_init, NULL, &dm_data_##n,            \
+                            &dm_config_##n, POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,    \
                             &api);
 
-DT_INST_FOREACH_STATUS_OKAY(DMMV_INST)
+DT_INST_FOREACH_STATUS_OKAY(DM_INST)

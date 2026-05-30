@@ -63,22 +63,6 @@ RC(2,0)     RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2
             #binding-cells = <0>;
             status = "okay";
         };
-        mv: mv {                              // 控制器：你按键绑定的就是它
-            compatible = "zmk,behavior-mv";
-            #binding-cells = <2>;
-            status = "okay";
-        };
-        mva: mva {
-            compatible = "zmk,behavior-input-two-axis";
-            status = "okay";
-            x-input-code = <0x00>;
-            y-input-code = <0x01>;
-            trigger-period-ms = <12>;     // 发送周期，可调手感
-            time-to-max-speed-ms = <0>;   // 无加速，直接用我们给的速度
-            delay-ms = <0>;
-            acceleration-exponent = <0>;
-            #binding-cells = <1>;
-        };
         dmm: dynamic_mouse_move {
             compatible = "zmk,behavior-dynamic-move";
             #binding-cells = <2>;
