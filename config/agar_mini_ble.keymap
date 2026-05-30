@@ -12,10 +12,12 @@
 
 // 将 X, Y 打包为 32 位 param
 #define MOVE_XY(x, y)   (((x) << 16) | ((y) & 0xFFFF))
-#define MOVE_SPEED(x1, y1, x2, y2)   MOVE_XY(x1, y1) MOVE_XY(x2, y2)
 
 // dmmv 需要两个参数，每个都是 MOVE_XY 格式，因此可以定义便捷宏：
 #define DMMV_BIND(x1, y1, x2, y2)   MOVE_XY(x1, y1) MOVE_XY(x2, y2)
+
+
+#define MOVE_SPEED(x1, y1, x2, y2)   ((x1 << 16) | (y1 & 0xFFFF)) ((x2 << 16) | (y2 & 0xFFFF))
 
 / {
     combos {
@@ -160,19 +162,19 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &dmm MOVE_SPEED(0, -800, 0, -300)    &mkp RCLK     &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &dmm MOVE_SPEED(-1000, 0, -400, 0)  &dmm MOVE_SPEED(0, 800, 0, 300)  &dmm MOVE_SPEED(1000, 0, 400, 0)  &tog 3  &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &mouse_move MOVE_SPEED(0, -800, 0, -300)    &mkp RCLK     &trans  &trans  &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &mouse_move MOVE_SPEED(-1000, 0, -400, 0)  &mouse_move MOVE_SPEED(0, 800, 0, 300)  &mouse_move MOVE_SPEED(1000, 0, 400, 0)  &tog 3  &trans
 &trans  &trans  &trans     &trans    &trans     &trans  &trans         &trans       &trans       &trans        &trans  &trans
-        &trans  &trans               &mo 3              &spd                            &trans        &trans
+        &trans  &trans               &mo 3              &mouse_speed_switch                            &trans        &trans
             >;
         };
 
         layer_3 {
             bindings = <
-&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &dsm MOVE_SPEED(0, -800, 0, -300)    &trans         &trans  &trans  &trans
-&trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &dsm MOVE_SPEED(-1000, 0, -400, 0)  &dsm MOVE_SPEED(0, 800, 0, 300)  &dsm MOVE_SPEED(1000, 0, 400, 0)  &trans  &trans
+&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &scroll_move MOVE_SPEED(0, -60, 0, -20)    &trans         &trans  &trans  &trans
+&trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &scroll_move MOVE_SPEED(-60, 0, -20, 0)  &scroll_move MOVE_SPEED(0, 60, 0, 20)  &scroll_move MOVE_SPEED(60, 0, 20, 0)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &trans   &trans  &trans         &kp2 J HASH        &toggle        &trans         &trans  &trans
-        &trans        &trans                       &trans           &spd                              &trans         &trans
+        &trans        &trans                       &trans           &scroll_move_switch                              &trans         &trans
             >;
         };
 
