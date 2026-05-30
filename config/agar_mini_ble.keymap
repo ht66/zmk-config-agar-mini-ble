@@ -174,7 +174,7 @@
         layer_4 {
             bindings = <
 &trans  &trans        &trans        &trans        &trans  &trans  &trans  &trans  &dmmv DMOVE(0, -1)  &trans  &trans  &trans  &trans
-&trans  &trans        &trans        &trans        &trans  &trans  &trans  &dmmv DMOVE(-1, 0)  &dmmv DMOVE(0, 1)  &dmmv DMOVE(1, 1)  &trans  &trans
+&trans  &trans        &trans        &trans        &trans  &trans  &trans  &dmmv DMOVE(-1, 0)  &dmmv DMOVE(0, 1)  &dmmv DMOVE(0, 1)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
         &trans        &trans                      &trans          &speed_change                  &trans  &trans
             >;
