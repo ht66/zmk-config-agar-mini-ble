@@ -174,7 +174,7 @@
 &trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &scroll_move MOVE_SPEED(0, -60, 0, -20)    &trans         &trans  &trans  &trans
 &trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &scroll_move MOVE_SPEED(-60, 0, -20, 0)  &scroll_move MOVE_SPEED(0, 60, 0, 20)  &scroll_move MOVE_SPEED(60, 0, 20, 0)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &trans   &trans  &trans         &kp2 J HASH        &toggle        &trans         &trans  &trans
-        &trans        &trans                       &trans           &scroll_move_switch                              &trans         &trans
+        &trans        &trans                       &trans           &scroll_speed_switch                              &trans         &trans
             >;
         };
 
