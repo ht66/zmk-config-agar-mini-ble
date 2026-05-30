@@ -1,6 +1,10 @@
 description: speed switch
 compatible: "zmk,behavior-speed-switch"
 properties:
+  target:
+    type: phandle
+    required: true
+    description: Reference to the move device to control (e.g. mouse_move or scroll_move)
   "#binding-cells":
     type: int
     required: true
