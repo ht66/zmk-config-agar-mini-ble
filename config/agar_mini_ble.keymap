@@ -30,18 +30,21 @@
             bindings = <&to 0>;
             key-positions = <39 40>;
             timeout-ms = <500>;
+            require-prior-idle-ms = <100>;
         };
 
         tolayer1 {
             bindings = <&to 1>;
             key-positions = <39 13>;
             timeout-ms = <500>;
+            require-prior-idle-ms = <100>;
         };
 
         tolayer2 {
             bindings = <&to 2>;
             key-positions = <40 24>;
             timeout-ms = <500>;
+            require-prior-idle-ms = <100>;
         };
 
         tolayer4 {
