@@ -12,6 +12,7 @@
 
 // 将 X, Y 打包为 32 位 param
 #define MOVE_XY(x, y)   (((x) << 16) | ((y) & 0xFFFF))
+#define MOVE_SPD(x1, y1, x2, y2)   MOVE_XY(x1, y1) MOVE_XY(x2, y2)
 
 // dmmv 需要两个参数，每个都是 MOVE_XY 格式，因此可以定义便捷宏：
 #define DMMV_BIND(x1, y1, x2, y2)   MOVE_XY(x1, y1) MOVE_XY(x2, y2)
@@ -159,19 +160,19 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &mouse_up    &mkp RCLK     &trans  &trans  &trans
-&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &mouse_left  &mouse_down  &mouse_right  &tog 3  &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &dmm MOVE_SPEED(0, -800, 0, -300)    &mkp RCLK     &trans  &trans  &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &dmm MOVE_SPEED(-1000, 0, -400, 0)  &dmm MOVE_SPEED(0, 800, 0, 300)  &dmm MOVE_SPEED(1000, 0, 400, 0)  &tog 3  &trans
 &trans  &trans  &trans     &trans    &trans     &trans  &trans         &trans       &trans       &trans        &trans  &trans
-        &trans  &trans               &mo 3              &kp RIGHT_ALT                            &trans        &trans
+        &trans  &trans               &mo 3              &spd                            &trans        &trans
             >;
         };
 
         layer_3 {
             bindings = <
-&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &scroll_up    &trans         &trans  &trans  &trans
-&trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &scroll_left  &scroll_down  &scroll_right  &trans  &trans
+&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &dsm MOVE_SPEED(0, -800, 0, -300)    &trans         &trans  &trans  &trans
+&trans  &trans        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &dsm MOVE_SPEED(-1000, 0, -400, 0)  &dsm MOVE_SPEED(0, 800, 0, 300)  &dsm MOVE_SPEED(1000, 0, 400, 0)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &trans   &trans  &trans         &kp2 J HASH        &toggle        &trans         &trans  &trans
-        &trans        &trans                       &trans           &kp RIGHT_ALT                              &trans         &trans
+        &trans        &trans                       &trans           &spd                              &trans         &trans
             >;
         };
 

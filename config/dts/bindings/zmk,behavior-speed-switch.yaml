@@ -1,0 +1,6 @@
+compatible: "zmk,behavior-speed-switch"
+include: base.yaml
+properties:
+  targets:
+    type: phandle-array
+    required: true
