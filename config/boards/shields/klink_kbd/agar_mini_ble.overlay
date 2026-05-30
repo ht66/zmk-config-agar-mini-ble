@@ -105,7 +105,7 @@ RC(2,0)     RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2
         mouse_speed_switch: mouse_speed_switch {
             compatible = "zmk,behavior-speed-switch";
             #binding-cells = <0>;
-            target = <&dmm>;
+            target = <&mouse_move>;
         };
 
 
@@ -121,7 +121,7 @@ RC(2,0)     RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2
         scroll_speed_switch: scroll_speed_switch {
             compatible = "zmk,behavior-speed-switch";
             #binding-cells = <0>;
-            target = <&dsm>;
+            target = <&scroll_move>;
         };
     };
 
