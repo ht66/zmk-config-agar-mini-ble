@@ -1,4 +1,4 @@
-#define DT_DRV_COMPAT zmk_behavior_dynamic_move
+#define DT_DRV_COMPAT zmk_behavior_axis_move
 
 #include <zephyr/device.h>
 #include <drivers/behavior.h>
@@ -14,7 +14,7 @@ struct vector2d { float x; float y; };
 struct movement_state_1d { float remainder; int16_t speed; int64_t start_time; };
 struct movement_state_2d { struct movement_state_1d x; struct movement_state_1d y; };
 
-struct behavior_dynamic_move_config {
+struct behavior_axis_move_config {
     int16_t x_code;
     int16_t y_code;
     uint16_t delay_ms;
@@ -39,7 +39,7 @@ static int64_t ticks_since_start(int64_t start, int64_t now, int64_t delay) {
     return d < 0 ? 0 : d;
 }
 
-static float speed(const struct behavior_dynamic_move_config *cfg, float max_speed,
+static float speed(const struct behavior_axis_move_config *cfg, float max_speed,
                    int64_t duration_ticks) {
     if (cfg->time_to_max_speed_ms == 0 || cfg->acceleration_exponent == 0 ||
         (1000 * duration_ticks / CONFIG_SYS_CLOCK_TICKS_PER_SEC) > cfg->time_to_max_speed_ms)
@@ -56,7 +56,7 @@ static void track_remainder(float *move, float *remainder) {
     *move = (int)new_move;
 }
 
-static float update_movement_1d(const struct behavior_dynamic_move_config *cfg,
+static float update_movement_1d(const struct behavior_axis_move_config *cfg,
                                 struct movement_state_1d *st, int64_t now) {
     if (st->speed == 0) { st->remainder = 0; return 0; }
     int64_t dur = ticks_since_start(st->start_time, now, cfg->delay_ms);
@@ -65,7 +65,7 @@ static float update_movement_1d(const struct behavior_dynamic_move_config *cfg,
     return move;
 }
 
-static struct vector2d update_movement_2d(const struct behavior_dynamic_move_config *cfg,
+static struct vector2d update_movement_2d(const struct behavior_axis_move_config *cfg,
                                           struct movement_state_2d *st, int64_t now) {
     return (struct vector2d){
             .x = update_movement_1d(cfg, &st->x, now),
@@ -78,7 +78,7 @@ static bool is_non_zero_2d(struct movement_state_2d *st) {
 }
 
 // ===== 双速状态（极简设计） =====
-struct behavior_dynamic_move_data {
+struct behavior_axis_move_data {
     struct k_work_delayable tick_work;
     const struct device *dev;
     struct movement_state_2d state;
@@ -88,7 +88,7 @@ struct behavior_dynamic_move_data {
 };
 
 static void adjust_speed(const struct device *dev, int16_t dx, int16_t dy) {
-    struct behavior_dynamic_move_data *data = dev->data;
+    struct behavior_axis_move_data *data = dev->data;
     data->state.x.speed += dx;
     data->state.y.speed += dy;
 }
@@ -101,8 +101,8 @@ static void set_start_times(struct movement_state_2d *st) {
 }
 
 static void update_work_scheduling(const struct device *dev) {
-    struct behavior_dynamic_move_data *data = dev->data;
-    const struct behavior_dynamic_move_config *cfg = dev->config;
+    struct behavior_axis_move_data *data = dev->data;
+    const struct behavior_axis_move_config *cfg = dev->config;
     set_start_times(&data->state);
     if (is_non_zero_2d(&data->state))
         k_work_schedule(&data->tick_work, K_MSEC(cfg->trigger_period_ms));
@@ -114,10 +114,10 @@ static void update_work_scheduling(const struct device *dev) {
 
 static void tick_work_cb(struct k_work *work) {
     struct k_work_delayable *dwork = k_work_delayable_from_work(work);
-    struct behavior_dynamic_move_data *data =
-    CONTAINER_OF(dwork, struct behavior_dynamic_move_data, tick_work);
+    struct behavior_axis_move_data *data =
+    CONTAINER_OF(dwork, struct behavior_axis_move_data, tick_work);
     const struct device *dev = data->dev;
-    const struct behavior_dynamic_move_config *cfg = dev->config;
+    const struct behavior_axis_move_config *cfg = dev->config;
 
     struct vector2d move = update_movement_2d(cfg, &data->state, k_uptime_ticks());
     if (move.x) input_report_rel(dev, cfg->x_code, CLAMP(move.x, INT16_MIN, INT16_MAX), !move.y, K_NO_WAIT);
@@ -128,7 +128,7 @@ static void tick_work_cb(struct k_work *work) {
 }
 
 void behavior_dm_set_active_slot(const struct device *dev, uint8_t slot) {
-    struct behavior_dynamic_move_data *data = dev->data;
+    struct behavior_axis_move_data *data = dev->data;
     if (data->active_slot == slot) return;
 
     int16_t old_x = (data->active_slot == 0) ? data->quick_sum_x : data->slow_sum_x;
@@ -148,7 +148,7 @@ static inline int16_t param_y(uint32_t p) { return (int16_t)(p & 0xFFFF); }
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
-    struct behavior_dynamic_move_data *data = dev->data;
+    struct behavior_axis_move_data *data = dev->data;
 
     int16_t x1 = param_x(binding->param1), y1 = param_y(binding->param1);
     int16_t x2 = param_x(binding->param2), y2 = param_y(binding->param2);
@@ -168,7 +168,7 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
 static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
-    struct behavior_dynamic_move_data *data = dev->data;
+    struct behavior_axis_move_data *data = dev->data;
 
     int16_t x1 = param_x(binding->param1), y1 = param_y(binding->param1);
     int16_t x2 = param_x(binding->param2), y2 = param_y(binding->param2);
@@ -185,8 +185,8 @@ static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
     return 0;
 }
 
-static int behavior_dynamic_move_init(const struct device *dev) {
-    struct behavior_dynamic_move_data *data = dev->data;
+static int behavior_axis_move_init(const struct device *dev) {
+    struct behavior_axis_move_data *data = dev->data;
     data->dev = dev;
     data->active_slot = 0;
     data->quick_sum_x = data->quick_sum_y = 0;
@@ -200,9 +200,9 @@ static const struct behavior_driver_api api = {
         .binding_released = on_keymap_binding_released,
 };
 
-#define DM_INST(n)                                                                               \
-    static struct behavior_dynamic_move_data dm_data_##n;                                  \
-    static const struct behavior_dynamic_move_config dm_config_##n = {                     \
+#define AXIS_MOVE_INST(n)                                                                               \
+    static struct behavior_axis_move_data dm_data_##n;                                  \
+    static const struct behavior_axis_move_config dm_config_##n = {                     \
         .x_code = DT_INST_PROP(n, x_input_code),                                                   \
         .y_code = DT_INST_PROP(n, y_input_code),                                                   \
         .trigger_period_ms = DT_INST_PROP(n, trigger_period_ms),                                   \
@@ -210,8 +210,8 @@ static const struct behavior_driver_api api = {
         .time_to_max_speed_ms = DT_INST_PROP(n, time_to_max_speed_ms),                             \
         .acceleration_exponent = DT_INST_PROP_OR(n, acceleration_exponent, 1),                     \
     };                                                                                             \
-    BEHAVIOR_DT_INST_DEFINE(n, behavior_dynamic_move_init, NULL, &dm_data_##n,            \
+    BEHAVIOR_DT_INST_DEFINE(n, behavior_axis_move_init, NULL, &dm_data_##n,            \
                             &dm_config_##n, POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,    \
                             &api);
 
-DT_INST_FOREACH_STATUS_OKAY(DM_INST)
+DT_INST_FOREACH_STATUS_OKAY(AXIS_MOVE_INST)

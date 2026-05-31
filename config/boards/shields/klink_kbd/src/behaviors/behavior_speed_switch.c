@@ -3,7 +3,7 @@
 #include <zephyr/device.h>
 #include <drivers/behavior.h>
 #include <zmk/behavior.h>
-#include "behavior_dynamic_move.h"
+#include "behavior_axis_move.h"
 
 struct behavior_speed_switch_config {
     const struct device *target;

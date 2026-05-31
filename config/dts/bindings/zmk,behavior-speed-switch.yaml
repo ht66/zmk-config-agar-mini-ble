@@ -1,8 +1,5 @@
 description: "zmk,behavior-speed-switch"
-
 compatible: "zmk,behavior-speed-switch"
-
-include: base.yaml
 
 properties:
   target:
