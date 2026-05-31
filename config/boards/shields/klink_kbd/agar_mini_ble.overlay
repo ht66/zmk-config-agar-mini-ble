@@ -1,7 +1,6 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
 #include "common.overlay"
-#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 #define _RC(x, y)
 #define N(x) (42-x)
@@ -49,60 +48,4 @@ RC(2,0)     RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(2,7) RC(2,8) RC(2
                 , <    37  38    39    N(0)    40  41    >;
         };
     };
-};
-
-/ {
-    behaviors {
-        kp2: kp2 {
-            compatible = "zmk,behavior-kp2";
-            #binding-cells = <2>;
-            status = "okay";
-        };
-        toggle: toggle {
-            compatible = "zmk,behavior-toggle";
-            #binding-cells = <0>;
-            status = "okay";
-        };
-//        mmove: mouse_axis_move {
-//            compatible = "zmk,behavior-axis-move";
-//            #binding-cells = <2>;
-//            x-input-code = <INPUT_REL_X>;
-//            y-input-code = <INPUT_REL_Y>;
-//            time-to-max-speed-ms = <0>;
-//            acceleration-exponent = <0>;
-//        };
-//
-//        mspd: mouse_speed_switch {
-//            compatible = "zmk,behavior-speed-switch";
-//            #binding-cells = <0>;
-//            target = <&mmove>;
-//        };
-//
-//        smove: scroll_axis_move {
-//            compatible = "zmk,behavior-axis-move";
-//            #binding-cells = <2>;
-//            x-input-code = <INPUT_REL_HWHEEL>;
-//            y-input-code = <INPUT_REL_WHEEL>;
-//            time-to-max-speed-ms = <0>;
-//            acceleration-exponent = <0>;
-//        };
-//
-//        sspd: scroll_speed_switch {
-//            compatible = "zmk,behavior-speed-switch";
-//            #binding-cells = <0>;
-//            target = <&smove>;
-//        };
-
-    };
-
-    /* 独立监听器 */
-//    mmove_input_listener: dmm_input_listener {
-//        compatible = "zmk,input-listener";
-//        device = <&mmove>;
-//    };
-//    smove_input_listener: dsm_input_listener {
-//        compatible = "zmk,input-listener";
-//        device = <&smove>;
-//    };
-
 };
