@@ -76,7 +76,7 @@
         layer2 {
             bindings = <
 &trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &dmm MOVE_Y(-800) MOVE_Y(-300)    &mkp RCLK     &trans  &trans  &trans
-&trans  &mspd  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &dmm MOVE_X(-1000) MOVE_X(-400)  MOVE_Y(800) MOVE_Y(300)  &dmm MOVE_X(1000) MOVE_X(400)  &tog 3  &trans
+&trans  &mspd  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &dmm MOVE_X(-1000) MOVE_X(-400)  &dmm MOVE_Y(800) MOVE_Y(300)  &dmm MOVE_X(1000) MOVE_X(400)  &tog 3  &trans
 &trans  &trans  &trans     &trans    &trans     &trans  &trans         &trans       &trans       &trans        &trans  &trans
         &trans  &trans               &mo 3              &trans                            &trans        &trans
             >;
