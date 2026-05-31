@@ -10,10 +10,6 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
-#define MOVE_SPD(x1, y1, x2, y2) ((x1 << 16) | (y1 & 0xFFFF)) ((x2 << 16) | (y2 & 0xFFFF))
-#define X_SPD(x1, x2) (x1 << 16) (x2 << 16)
-#define Y_SPD(y1, y2) (y1 & 0xFFFF) (y2 & 0xFFFF)
-
 / {
     combos {
         compatible = "zmk,combos";
@@ -79,8 +75,8 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &dmm Y_SPD(-800, -300)    &mkp RCLK     &trans  &trans  &trans
-&trans  &mspd  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &dmm X_SPD(-1000, -400)  &dmm Y_SPD(800, 300)  &dmm X_SPD(1000, 400)  &tog 3  &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans         &mkp LCLK    &dmm MOVE_Y(-800) MOVE_Y(-300)    &mkp RCLK     &trans  &trans  &trans
+&trans  &mspd  &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans         &dmm MOVE_X(-1000) MOVE_X(-400)  MOVE_Y(800) MOVE_Y(300)  &dmm MOVE_X(1000) MOVE_X(400)  &tog 3  &trans
 &trans  &trans  &trans     &trans    &trans     &trans  &trans         &trans       &trans       &trans        &trans  &trans
         &trans  &trans               &mo 3              &trans                            &trans        &trans
             >;
@@ -88,8 +84,8 @@
 
         layer_3 {
             bindings = <
-&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &dsm Y_SPD(60, 10)    &trans         &trans  &trans  &trans
-&trans  &sspd        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &dsm X_SPD(-60, -10)  &dsm Y_SPD(-60, -10)  &dsm X_SPD(60, 10)  &trans  &trans
+&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans         &trans        &dsm MOVE_Y(60) MOVE_Y(10)    &trans         &trans  &trans  &trans
+&trans  &sspd        &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans         &dsm MOVE_X(-60) MOVE_X(-10)  &dsm MOVE_Y(-60) MOVE_Y(-10)  &dsm MOVE_X(60) MOVE_X(10)  &trans  &trans
 &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &trans   &trans  &trans         &kp2 J HASH        &toggle        &trans         &trans  &trans
         &trans        &trans                       &trans           &trans                              &trans         &trans
             >;
