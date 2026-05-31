@@ -80,11 +80,11 @@
         };
     };
 
-    mmove_input_listener: dmm_input_listener {
+    mmove_input_listener: mmove_input_listener {
         compatible = "zmk,input-listener";
         device = <&mmove>;
     };
-    smove_input_listener: dsm_input_listener {
+    smove_input_listener: smove_input_listener {
         compatible = "zmk,input-listener";
         device = <&smove>;
     };
