@@ -112,19 +112,19 @@
 
         layer2 {
             bindings = <
-&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans  &mkp LCLK                        &mmove MOVE_Y(-800) MOVE_Y(-300)  &mkp RCLK                      &trans  &trans  &trans
+&trans  &trans  &mkp LCLK  &kp UP    &mkp RCLK  &trans  &trans  &mkp LCLK                          &mmove MOVE_Y(-800) MOVE_Y(-300)  &mkp RCLK                        &trans  &trans  &trans
 &trans  &mspd   &kp LEFT   &kp DOWN  &kp RIGHT  &trans  &trans  &mmove MOVE_X(-1000) MOVE_X(-400)  &mmove MOVE_Y(800) MOVE_Y(300)    &mmove MOVE_X(1000) MOVE_X(400)  &tog 3  &trans
-&trans  &trans  &trans     &trans    &trans     &trans  &trans  &trans                           &trans                          &trans                         &trans  &trans
-        &trans  &trans               &mo 3              &trans                                                                   &trans                         &trans
+&trans  &trans  &trans     &trans    &trans     &trans  &trans  &trans                             &trans                            &trans                           &trans  &trans
+        &trans  &trans               &mo 3              &trans                                                                       &trans                           &trans
             >;
         };
 
         layer3 {
             bindings = <
-&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans  &trans                        &smove MOVE_Y(60) MOVE_Y(10)    &trans                      &trans  &trans  &trans
+&trans  &trans        &trans        &kp PAGE_UP    &trans   &trans  &trans  &trans                          &smove MOVE_Y(60) MOVE_Y(10)    &trans                        &trans  &trans  &trans
 &trans  &sspd         &kp HOME      &kp PAGE_DOWN  &kp END  &trans  &trans  &smove MOVE_X(-60) MOVE_X(-10)  &smove MOVE_Y(-60) MOVE_Y(-10)  &smove MOVE_X(60) MOVE_X(10)  &trans  &trans
-&trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &trans   &trans  &trans  &kp2 J HASH                   &toggle                       &trans                      &trans  &trans
-        &trans        &trans                       &trans           &trans                                                              &trans                      &trans
+&trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2   &trans   &trans  &trans  &trans                          &trans                          &trans                        &trans  &trans
+        &trans        &trans                       &trans           &trans                                                                  &trans                        &trans
             >;
         };
     };
